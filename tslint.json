@@ -77,6 +77,7 @@
       "app",
       "camelCase"
     ],
+    "naming-convention": null,
     "component-selector": [
       true,
       "element",
