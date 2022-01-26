@@ -1,0 +1,72 @@
+
+<ion-header class="ion-no-border">
+  <ion-toolbar class="fondo">    
+    <ion-title mode="ios" class="know-title">Know</ion-title>    
+    <!-- <ion-buttons slot="start">
+      <ion-button routerLink="/tabs/car" routerLink="/tabs/tarjetas">
+        <img src="assets/icon/menu-flip.svg" style="margin-right: 12px !important;" />
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar> 
+</ion-header>
+<ion-content  class="ion-margin-bottom fondo" *ngIf="tarjeta$">
+  <div  *ngIf="perfil.perfil$ | async as perfil">
+    <div class="container" *ngIf="perfil.avatar" [style.background]="styleImg(perfil.avatar)">    
+      <div class="avatar">
+        <ion-avatar>
+          <ion-img [src]="perfil.logo ? 'data:image/jpeg;base64,' + perfil.logo : 'assets/imagenes/avatar.png'"></ion-img>
+        </ion-avatar>
+      </div>    
+    </div>
+
+    <div class="container" *ngIf="!perfil.avatar && perfil.logo" [style.background]="'white'">    
+      <div class="avatar">
+        <ion-avatar>
+          <ion-img [src]="perfil.logo ? 'data:image/jpeg;base64,' + perfil.logo : 'assets/imagenes/avatar.png'"></ion-img>
+        </ion-avatar>
+      </div>    
+    </div>
+    
+    <ion-grid>    
+      <ion-row class="mt-2" *ngIf="!perfil.avatar && !perfil.logo">
+        <ion-col size="!2" class="m-auto">        
+          <img class="text-center" [src]="'/assets/avatar.svg'" />        
+        </ion-col>
+      </ion-row>
+      <ion-row class="text-url-container">
+        <ion-col size="!2" class="m-auto">        
+          <span class="text-url">Know.com/{{perfil.username}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row class="text-tarjeta-container" *ngIf="tarjeta$ && tarjeta$ | async as tarjeta">
+        <ion-col size="!2" class="m-auto">        
+          <span class="text-tarjeta">{{tarjeta.nombretarjeta}}</span>
+        </ion-col>
+      </ion-row>    
+    </ion-grid>
+    <!-- </ion-toolbar> -->
+    <!-- <p class="ion-text-center tarjeta" style="font-size: 11px !important;">Tu tarjeta de contacto será dirigida a la página para compartir tarjetas.</p> -->
+    <ion-grid style="margin-bottom: 100px" *ngIf="tarjeta$ | async as tarjeta"> 
+      <ion-row class="redesSociales">
+        <ion-col
+          *ngFor="let item of tarjeta.tarjetaservicioList | orden; let i = index"
+          size="6"
+          sizeSm="4"
+          sizeMd="3"
+          sizeLg="2"
+          class="ion-text-center colBoxShadow">
+          <img
+            [src]="item.servicio.logo ? 'data:image/jpeg;base64,' + item.servicio.logo : '/assets/no-imagen.png'"
+            (click)="abrirUrl(item)"
+            class="img-service"
+            [style.opacity]="tarjeta.openfirst && i !== 0 ? '0.1' : '1'"
+          />
+          <ion-label class="tarjeta-subtitle">
+            {{item.servicio.type}}
+          </ion-label>
+        </ion-col>      
+      </ion-row>    
+    </ion-grid>
+  </div>
+</ion-content>
+

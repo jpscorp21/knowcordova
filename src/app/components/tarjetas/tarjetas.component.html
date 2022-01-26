@@ -1,0 +1,140 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="fondo" mode="ios">
+    <ion-title class="know-title">Know</ion-title>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/tabs/perfil">
+        <img src="assets/icon/menu-flip.svg" alt="menu"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-margin-bottom fondo" *ngIf="tarjeta$">
+  <div *ngIf="perfil.perfil$ | async as perfil">
+    <div class="container" *ngIf="perfil.avatar" [style.background]="styleImg(perfil.avatar)">
+      <div class="avatar">
+        <ion-avatar>
+          <img [src]="perfil.logo ? 'data:image/jpeg;base64,' + perfil.logo : 'assets/imagenes/avatar.png'"
+               class="w-100" alt="avatar">
+        </ion-avatar>
+      </div>
+    </div>
+
+    <div class="container" *ngIf="!perfil.avatar && perfil.logo"
+         [style.background]="'white'">
+      <div class="avatar">
+        <ion-avatar>
+          <img [src]="perfil.logo ? 'data:image/jpeg;base64,' + perfil.logo : 'assets/imagenes/avatar.png'"
+               alt="avatar"/>
+        </ion-avatar>
+      </div>
+    </div>
+
+    <ion-grid>
+      <ion-row class="mt-2" *ngIf="!perfil.avatar && !perfil.logo">
+        <ion-col size="!2" class="m-auto">
+          <img class="text-center" [src]="'/assets/avatar.svg'" alt="avatar"/>
+        </ion-col>
+      </ion-row>
+      <ion-row class="text-url-container" *ngIf="tarjeta$ && tarjeta$ | async as tarjeta">
+        <ion-col size="!2" class="m-auto">
+          <span class="text-url">knownfc.com/profile/{{perfil.username}}.{{tarjeta.id}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row class="text-tarjeta-container" *ngIf="tarjeta$ && tarjeta$ | async as tarjeta">
+        <ion-col size="12" class="m-auto d-flex align-items-center justify-content-center">
+          <span class="text-tarjeta ion-text-center"
+                style="flex: 1; padding-left: 52px;">{{tarjeta.nombretarjeta}}</span>
+          <ion-button fill="clear" (click)="moreOptions($event, tarjeta)">
+            <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="mx-0 text-center">
+
+        <ion-col size="6" class="d-flex justify-content-end" *ngIf="(tarjeta$ | async) as tarjeta else serviciobutton">
+          <ion-button
+
+            class="button-accion"
+            [ngClass]="{'white': !tarjeta.openfirst}"
+            (click)="abrir()"
+          >
+            {{tarjeta.openfirst ? 'Ver primero' : 'Ver todos'}}
+          </ion-button>
+        </ion-col>
+        <ng-template #serviciobutton>
+          <ion-col size="6" class="d-flex justify-content-end">
+            <ion-button
+              expand="block"
+              class="button-accion white"
+              disabled
+            >
+              {{(loading | async) ? 'Cargando' : 'Ver todos'}}
+            </ion-button>
+          </ion-col>
+        </ng-template>
+        <ion-col size="6" class="d-flex justify-content-start" *ngIf="(tarjeta$ | async) as tarjeta">
+          <ion-button expand="block" class="button-accion white" (click)="editarTarjetaInCrear()">
+            Editar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!-- </ion-toolbar> -->
+    <!-- <p class="ion-text-center tarjeta" style="font-size: 11px !important;">Tu tarjeta de contacto será dirigida a la página para compartir tarjetas.</p> -->
+    <ion-grid style="margin-bottom: 100px" *ngIf="tarjeta$ | async as tarjeta">
+      <ion-row class="redesSociales" [sortablejs]="tarjeta.tarjetaservicioList" [sortablejsOptions]="options">
+        <ion-col size="6"
+                 sizeSm="4"
+                 sizeMd="3"
+                 sizeLg="2"
+                 class="ion-text-center colBoxShadow">
+          <img
+            (click)="mostrarCompartirContacto(tarjeta)"
+            [src]="servicio.contactoData.logo ? 'data:image/jpeg;base64,' + servicio.contactoData.logo : '/assets/no-imagen.png'"
+            [alt]="'contacto'"
+            class="img-service"
+          />
+          <ion-label class="tarjeta-subtitle">
+            {{servicio.contactoData.type}}
+          </ion-label>
+        </ion-col>
+        <ion-col
+          *ngFor="let item of tarjeta.tarjetaservicioList | orden; let i = index"
+          size="6"
+          sizeSm="4"
+          sizeMd="3"
+          sizeLg="2"
+          class="ion-text-center colBoxShadow">
+          <img
+            (click)="abrirUrl(item)"
+            [src]="item.servicio.logo ? 'data:image/jpeg;base64,' + item.servicio.logo : '/assets/no-imagen.png'"
+            [style.opacity]="tarjeta.openfirst && i !== 0 ? '0.1' : '1'"
+            [alt]="item.valor"
+            class="img-service"
+          />
+          <ion-label class="tarjeta-subtitle">
+            {{item.servicio.type}}
+          </ion-label>
+        </ion-col>
+        <ion-col
+          size="6"
+          sizeSm="4"
+          sizeMd="3"
+          sizeLg="2"
+          class="ion-text-center colBoxShadow">
+          <img
+            src="/assets/icon/servicio-mas.svg"
+            (click)="editarTarjeta()"
+            class="img-service"
+            alt="avatar"
+            [style.opacity]="tarjeta.openfirst ? '0.1' : '1'"
+          />
+          <ion-label class="tarjeta-subtitle">
+            Agregar servicio
+          </ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+

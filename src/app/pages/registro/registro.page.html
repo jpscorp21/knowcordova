@@ -1,0 +1,160 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="fondo">    
+    <ion-title>Know</ion-title>
+    <ion-buttons slot="end" style="padding-right: 12px;" class="mx-0">
+      <ion-button>
+        <ion-img src="assets/icon/menu.svg" class="menu"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<div class="borde"></div>
+
+<ion-content class="fondo">  
+
+  <form [formGroup]="ngForm" (ngSubmit)="submit()">
+    <ion-grid class="d-flex flex-column justify-content-start px-0" style="height: 80vh !important;">      
+      <ion-row class="mx-0" *ngIf="nextForm | async as next">
+        <ion-col size="11" sizeSm="10" sizeMd="8" class="m-auto">
+
+          <ion-row class="py-3">
+            <ion-col class="py-0 d-flex justify-content-center">              
+              <ion-avatar class="avatar-registro" [ngClass]="{'disabled': next !== 1}">1</ion-avatar>
+            </ion-col>
+            <ion-col class="py-0 d-flex justify-content-center align-items-center">
+              <ion-avatar class="avatar-registro" [ngClass]="{'disabled': next !== 2}">2</ion-avatar>
+            </ion-col>
+          </ion-row>
+          <ion-row class="py-0">
+            <ion-col class="py-2">
+              <span>Campos obligatorios (<ion-text color="danger">*</ion-text>)</span>                
+            </ion-col>
+          </ion-row>
+          <div *ngIf="next === 1">
+            <ion-row class="py-0">
+              <ion-col class="py-0">
+                <h3 class="py-0 my-2">Datos personales</h3>
+              </ion-col>
+            </ion-row>
+            
+            <ion-row>
+              <ion-col style="text-align: center;">
+                <ion-item class="input fondo">
+                  <ion-label [position]="'stacked'">Nombre de usuario <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input #usuario formControlName="username" class="" autofocus (ionChange)="modelChange($event)" debounce="350"></ion-input>
+                </ion-item>  
+                <ion-item class="fondo" lines="none" *ngIf="ngForm.controls['username'].touched && (existeUsuario | async)">
+                  <ion-label class="text-danger" style="margin-bottom: 0px !important;">El usuario ya existe</ion-label>
+                </ion-item>           
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="text-align: center;">
+                <ion-item class="input fondo">
+                  <ion-label [position]="'stacked'">E-mail <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input formControlName="email" (keydown.enter)="registrar()" (ionChange)="modelChangeEmail($event)" debounce="350"></ion-input>
+                </ion-item>  
+                <ion-item class="fondo" lines="none" *ngIf="ngForm.controls['email'].touched && (existeCorreo | async)">
+                  <ion-label class="text-danger" style="margin-bottom: 0px !important;">El correo ya existe</ion-label>
+                </ion-item>      
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="text-align: center;">
+                <ion-item class="input fondo">
+                  <ion-label [position]="'stacked'">Contraseña <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input formControlName="password" type="password"></ion-input>
+                </ion-item>        
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="text-align: center;">
+                <ion-item class="input fondo">
+                  <ion-label [position]="'stacked'">Confirmar contraseña <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input formControlName="password_confirmation" type="password" (keyup.enter)="siguiente()"></ion-input>
+                  
+                </ion-item>        
+                <ion-item class="fondo" lines="none" *ngIf="ngForm.controls['password_confirmation'].touched && ngForm.controls['password_confirmation'].hasError('NoPassswordMatch')">
+                  <ion-label class="text-danger" style="margin-bottom: 0px !important;">Las contraseñas no son iguales</ion-label>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            
+            <ion-row>
+              <ion-col style="text-align: center;" class="ion-padding-top px-0">
+                <ion-button 
+                  class="button-dark" 
+                  expand="block" 
+                  (click)="nextForm.next(2)" 
+                  [disabled]="
+                    (loadingCorreo | async) ||
+                    (existeUsuario | async) || (existeCorreo | async) || 
+                    !ngForm.controls['email'].touched || 
+                    !ngForm.controls['username'].touched || 
+                    !ngForm.controls['password'].valid || 
+                    !ngForm.controls['username'].valid || 
+                    !ngForm.controls['email'].valid || 
+                    !ngForm.controls['password_confirmation'].valid"
+                >
+                  Siguiente
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="text-align: center;" class="ion-padding-top px-0">
+                <span class="link-text" (click)="router.navigateByUrl('/')">Atrás</span>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div *ngIf="next === 2">
+            <ion-row class="py-0">
+              <ion-col class="py-0">
+                <h3 class="py-0 my-2">Datos de contacto</h3>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="text-align: center;">
+                <ion-item class="input fondo">
+                  <ion-label [position]="'stacked'">Nombres <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input formControlName="nombre" autofocus class="nombre"></ion-input>
+                </ion-item>        
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="text-align: center;">
+                <ion-item class="input fondo">
+                  <ion-label [position]="'stacked'">Apellidos <ion-text color="danger">*</ion-text></ion-label>
+                  <ion-input formControlName="apellido"></ion-input>
+                </ion-item>        
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="text-align: center;">
+                <ion-item class="input fondo">
+                  <ion-label [position]="'stacked'">Teléfono</ion-label>
+                  <ion-input formControlName="telefono" class="telefono" (keyup.enter)="registrar()"></ion-input>
+                </ion-item>        
+              </ion-col>
+            </ion-row>            
+            <ion-row> 
+              <ion-col style="text-align: center;" class="ion-padding-top px-0">
+                <ion-button 
+                  type="submit" 
+                  class="button-dark" 
+                  expand="block" 
+                  (click)="registrar()" 
+                  [disabled]="!valid || (confirmarClicked | async) || (existeCorreo | async) || (existeUsuario | async)">Finalizar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row class="pb-3">
+              <ion-col style="text-align: center;" class="ion-padding-top px-0">
+                <span class="link-text" (click)="nextForm.next(1)">Atrás</span> 
+              </ion-col>
+            </ion-row>
+          </div>          
+        </ion-col>
+      </ion-row>        
+    </ion-grid>
+    </form>
+</ion-content>

@@ -1,0 +1,16 @@
+.avatar-registro {
+    background: #000000;
+    color: white;
+    font-size: 16px;
+    width: 40px;
+    height: 40px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.disabled {
+        background: #808080;
+    }
+}
+

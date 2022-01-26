@@ -1,0 +1,56 @@
+<!-- <ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="compartir">
+      <ion-icon src="/assets/icon/share.svg"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="amigos">
+      <ion-icon src="/assets/icon/meet.svg"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button (click)="goTarjetas()">
+      <ion-icon color="dark" icon="home"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="perfil">
+      <ion-icon src="/assets/icon/profile.svg"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="qr">
+      <ion-icon src="/assets/icon/qr.svg"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs> -->
+
+<ion-tabs (ionTabsWillChange)="changeTab($event)" *ngIf="pathSubject | async as path">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button (click)="goTarjetas()">
+      <ion-icon
+        [src]="path === 'cards' ? '/assets/icon/profile.svg' : '/assets/icon/profile-outline.svg'"
+      ></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button (click)="onChangeCompartir()">
+      <ion-icon
+        [src]="path === 'compartir' ? '/assets/icon/share.svg' : '/assets/icon/share-outline.svg'"
+      >
+      </ion-icon>
+    </ion-tab-button>
+
+
+    <!-- <ion-tab-button>
+      <ion-icon color="dark" src="/assets/icon/home.svg"></ion-icon>
+    </ion-tab-button> -->
+
+
+    <ion-tab-button (click)="onChangeQr()">
+      <ion-icon
+        [src]="path === 'qr' ? '/assets/icon/qr.svg' : '/assets/icon/qr-outline.svg'"
+      ></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="amigos">
+      <ion-icon
+        [src]="path === 'amigos' ? '/assets/icon/meet.svg' : '/assets/icon/meet-outline.svg'"
+      ></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

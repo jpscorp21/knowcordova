@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+<string name="app_name">Know</string>
+<string name="title_activity_main">Know</string>
+<string name="package_name">com.know.py</string>
+<string name="custom_url_scheme">http</string>
+<string name="app_host">knownfc.com</string>
+</resources>

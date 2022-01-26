@@ -1,0 +1,50 @@
+ion-title {
+  font-size: 16px;  
+}
+
+ion-label {
+  font-size: 24px;
+}
+
+p {
+  font-size: 11px;
+  color: #717171;
+}
+
+.borde {
+  border-top: 1px solid #000000;
+  margin-right: 24px !important;
+  margin-left: 20px !important;
+}
+
+.bordeSecundario {
+  border-top: 1px solid #DEDEDE;
+  margin-right: 24px !important;
+  margin-left: 20px !important;
+}
+
+img {
+  margin-right: 12px !important;
+}
+
+ion-row {
+  padding-left: 12px !important;
+}
+
+.colSeguidores {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-list {
+  padding-left: 4px;
+  padding-right: 24px;
+}
+
+.tipografia {
+  padding-left: 8px;
+  font-size: 16px;
+  color: #717171;
+}

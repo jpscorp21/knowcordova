@@ -1,0 +1,24 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="fondo">
+    <ion-title mode="ios" class="know-title">Know</ion-title>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/tabs/perfil">
+        <img src="assets/icon/menu-flip.svg"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="fondo">
+  <ion-label class="texto">Tu Código Qr</ion-label>
+  <div class="qrContent">
+    <ngx-qrcode
+      [value]="shareSocials"
+      [width]=250>
+    </ngx-qrcode>
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="m-2">
+    <ion-fab-button routerLink="/tabs/crear-tarjeta">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

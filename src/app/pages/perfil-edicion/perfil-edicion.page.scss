@@ -1,0 +1,37 @@
+
+.perfilBorder {
+  border-top-style: dashed;
+  border-right-style: dashed;
+  border-bottom-style: dashed;
+  border-left-style: dashed;
+  border-radius: 10px;
+  border: 2px dashed gray;
+}
+
+.camara {
+  max-width: 30px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 12px;
+
+  &.imagen {
+    max-width: 200px;
+  }
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+  width: 100%;
+}
+
+.upload-btn-wrapper ion-input {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}

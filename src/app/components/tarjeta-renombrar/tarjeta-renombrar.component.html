@@ -1,0 +1,21 @@
+<app-know-header-modal></app-know-header-modal>
+<ion-content class="ion-padding-vertical fondo" *ngIf="nombre">
+  <form>
+    <ion-grid>
+      <ion-row class="ion-margin-top px-1">
+        <ion-col>
+          <ion-item class="input fondo">
+            <ion-input #nombreInput [formControl]="nombre"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-margin-top px-1">
+        <ion-col>
+          <ion-button type="submit" class="button-dark" expand="block" (click)="guardar()"
+                      [disabled]="(confirmarClicked | async) || !nombre.valid">Guardar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

@@ -1,0 +1,36 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/perfil"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="px-0">Privacidad</ion-title>
+  </ion-toolbar>
+  <div class="borde"></div>
+</ion-header>
+
+<ion-content>
+  <ion-row class="redesSociales">
+    <ion-col
+      size="12"
+      class="d-flex align-items-center align-">
+      <ion-label class="tarjeta-subtitle px-3" style="font-weight: normal !important;">
+        Requiere solicitud para seguir
+      </ion-label>
+      <div class="flex-grow-1 d-flex justify-content-end px-2">
+        <ion-toggle color="dark" [formControl]="followRequest" [disabled]="confirmarClicked | async"
+                    (ionChange)="changeFollowRequest()"></ion-toggle>
+      </div>
+    </ion-col>
+    <ion-col
+      size="12"
+      class="d-flex align-items-center align-">
+      <ion-label class="tarjeta-subtitle fw-light px-3 ion-text-left" style="font-weight: normal !important;">
+        Seguir automaticamente despues de leer el Tag
+      </ion-label>
+      <div class="flex-grow-1 d-flex justify-content-end px-2">
+        <ion-toggle color="dark" [formControl]="autofollowaftertapping" [disabled]="confirmarClicked | async"
+                    (ionChange)="changeAutofollowaftertapping()"></ion-toggle>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

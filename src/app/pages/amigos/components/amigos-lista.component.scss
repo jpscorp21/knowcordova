@@ -1,0 +1,90 @@
+.borde {
+  border-top: 1px solid #000000;
+  margin-right: 24px !important;
+  margin-left: 24px !important;
+}
+
+.segment-amigos {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+
+.amigosConfig {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  .avatar {
+    border: 1px solid white;
+    border-radius: 50px;
+    bottom: 30px;
+    width: 80px;
+    height: 80px;
+    //background: #FFFFFF url(https://st.depositphotos.com/1020341/4233/i/600/depositphotos_42333899-stock-photo-portrait-of-huge-beautiful-male.jpg) center;
+    background-size: cover !important;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .avatar-default {
+    border: 1px solid white;
+    border-radius: 50px;
+    bottom: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.search {
+  border: 1px solid #000000;
+  border-radius: 35px;
+  background: none;
+}
+
+.searchbar-container {
+  margin-top: 8px;
+  /* position: relative;
+  .position.ion-icon {
+    position:absolute;
+    top: 50px;
+    right: 30;
+    width: 200px;
+    height: 100px;
+  } */
+  /* ion-searchbar {
+    position:absolute;
+    top: 50px;
+    right: 30;
+    width: 200px;
+    height: 100px;
+  } */
+
+}
+
+ion-searchbar {
+  --border-radius: 35px;
+  --box-shadow: 0px 0px 0px 1px #000;
+  --icon-color: #bdbdbd;
+  --clear-button-color: #bdbdbd;
+  --cancel-button-color: #bdbdbd;
+
+  ion-icon {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  // searchbar-input-container sc-ion-searchbar-md {
+  .searchbar-input-container {
+    border: 1px solid red !important;
+  }
+}
+
+
+

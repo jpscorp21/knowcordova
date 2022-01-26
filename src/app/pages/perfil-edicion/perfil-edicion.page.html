@@ -1,0 +1,135 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar mode="ios" class="fondo">
+    <ion-title>Know</ion-title>
+    <ion-buttons slot="start" style="padding-right: 12px;" class="mx-0">
+      <ion-button routerLink="/tabs/perfil">
+        <ion-img src="assets/icon/menu-flip.svg" class="menu"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="fondo">
+  <form [formGroup]="ngForm">
+    <ion-grid class="d-flex flex-column justify-content-start px-0" style="height: 80vh !important;">
+      <ion-row class="mx-0" *ngIf="nextForm | async as next">
+        <ion-col size="11" sizeSm="10" sizeMd="8" class="m-auto">
+          <ion-label class="d-flex justify-content-left" style="font-size: 24px; padding-bottom: 30px;">Editar perfil
+          </ion-label>
+
+          <ion-label class="d-flex justify-content-left"
+                     style="font-weight: bold; font-size:16px; padding-bottom: 10px;">Foto de perfil
+          </ion-label>
+          <div class="perfilBorder upload-btn-wrapper" (click)="takePhoto('logo')">
+            <ion-img
+              [src]="ngForm.value.logo ? 'data:image/jpeg;base64,' + ngForm.value.logo : 'assets/imagenes/camara.svg'"
+              class="camara"
+              [ngClass]="{'imagen': !!ngForm.value.logo}"
+            >
+
+            </ion-img>
+            <p class="d-flex justify-content-center">Tomar foto</p>
+            <!--<ion-input #inputLogo type="file" className="upload-file-buton"
+                       (change)="onFileChange($event, 'logo')"></ion-input>-->
+          </div>
+          <ion-label class="d-flex justify-content-center ion-padding-bottom"
+                     style="font-size:16px; padding-top: 8px;"
+                     (click)="takeFromAlbum('logo')"
+          ><u>Subir desde
+            galería</u></ion-label>
+
+          <ion-label class="d-flex justify-content-left "
+                     style="font-weight: bold; font-size:16px; padding-bottom: 10px;">Foto de portada
+          </ion-label>
+          <div class="perfilBorder upload-btn-wrapper" (click)="takePhoto('avatar')">
+            <ion-img
+              [src]="ngForm.value.avatar ? 'data:image/jpeg;base64,' + ngForm.value.avatar : 'assets/imagenes/camara.svg'"
+              class="camara" [ngClass]="{'imagen': !!ngForm.value.avatar}"></ion-img>
+            <p class="d-flex justify-content-center">Tomar foto</p>
+          </div>
+          <ion-label class="d-flex justify-content-center  ion-padding-bottom"
+                     style="font-size:16px; padding-top: 8px;"
+                     (click)="takeFromAlbum('avatar')"
+          ><u>Subir desde
+            galería</u></ion-label>
+
+          <ion-row class="py-0">
+            <ion-col class="py-0">
+              <h3 class="py-0 my-2">Datos personales</h3>
+            </ion-col>
+          </ion-row>
+          <!-- <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-item class="input fondo">
+                <ion-label [position]="'stacked'">Contraseña</ion-label>
+                <ion-input #usuario formControlName="password" class="" placeholder="******" autofocus></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-item class="input fondo">
+                <ion-label [position]="'stacked'">Confirmar contraseña</ion-label>
+                <ion-input formControlName="password_confirmation"  placeholder="******" type="password"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row> -->
+
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-item class="input fondo">
+                <ion-label [position]="'stacked'">Nombres</ion-label>
+                <ion-input formControlName="nombre" placeholder="Erika"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-item class="input fondo">
+                <ion-label [position]="'stacked'">Apellidos</ion-label>
+                <ion-input formControlName="apellido" (keyup.enter)="siguiente()" placeholder="Apellido"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="py-0">
+            <ion-col class="py-0">
+              <h3 class="py-0 my-2">Datos de contacto</h3>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-item class="input fondo">
+                <ion-label [position]="'stacked'">Teléfono</ion-label>
+                <ion-input formControlName="telefono" placeholder="telefono" autofocus
+                           class="telefono"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-item class="input fondo">
+                <ion-label [position]="'stacked'">E-mail</ion-label>
+                <ion-input formControlName="email" placeholder="email@gmail.com"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: center;" class="ion-padding-top px-0">
+              <ion-button
+                class="button-dark"
+                [disabled]="!valid"
+                expand="block"
+                [disabled]="confirmarClicked | async"
+                (click)="guardar()"
+              >
+                Guardar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+

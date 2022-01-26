@@ -1,0 +1,44 @@
+ion-slides {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+ion-slide {
+  height: auto !important;
+  overflow-y: auto;
+}
+
+app-tarjetas {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.bleft {
+  --border-style: none;
+  --background-activated: none;
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  z-index: 5555;
+}
+
+.bright {
+  --border-style: none;
+  --background-activated: none;
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  z-index: 5555;
+}
+
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,116 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="fondo">
+    <ion-title mode="ios" class="know-title">Know</ion-title>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/tabs/perfil">
+        <img src="assets/icon/menu-flip.svg"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="fondo">
+  <div class="container" [style.background]="styleImg('assets/imagenes/somosKnow.png')">
+    <div class="opacity-background"></div>
+    <div class="texto-imagen">SOMOS KNOW</div>
+  </div>
+  <ion-card-content class="fondo">
+    <ion-row>
+      <ion-col>
+        <h3 class="titulo-acerca">Sobre nosotros</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <p>
+          Somos una empresa preocupada por las incontables charlas y tarjetas perdidas. Por eso entramos al mercado con
+          un software y una pieza de hardware que hacen el complemento perfecto para poder compartir tu información de
+          manera fácil rápida y segura. Know.me crea una experiencia de presentación de nueva generación. Enfocado en
+          llevar tu información más valiosa con un simple toque.
+        </p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <h3 class="titulo-acerca">Misión</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <p>
+          Proporcionar a nuestros consumidores una herramienta tecnológica que permita enriquecer y crear una
+          experiencia inolvidable a la hora de presentarse.
+        </p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <h3 class="titulo-acerca">Visión</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <p>
+          Proveer la mejor experiencia del usuario cada día, ser parte esencial del Networking y Presentaciones
+          Causales.
+        </p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <h3 class="titulo-acerca">Objetivos</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ul>
+          <li>La innovación: Nos atrevemos a innovar y ser pioneros.</li>
+          <li>Colaboraciones Conjunta.</li>
+          <li>Compromiso Ambiental.</li>
+        </ul>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+  <ion-card-content class="ion-no-padding ion-padding-horizontal">
+    <div class="redes">
+      <div class="ion-margin-end">
+        <ion-img src="assets/icon/instagram.svg"></ion-img>
+      </div>
+      <div class="ion-margin-end">
+        <ion-img src="assets/icon/facebook.svg"></ion-img>
+      </div>
+      <div class="ion-margin-end">
+        <ion-img src="assets/icon/twitter.svg"></ion-img>
+      </div>
+      <div class="ion-margin-end">
+        <ion-img src="assets/icon/linkedin.svg"></ion-img>
+      </div>
+    </div>
+  </ion-card-content>
+  <ion-card-content class="ion-no-padding ion-padding-horizontal ion-margin-bottom">
+    <ion-list class="fondo">
+      <ion-item class="fondo">
+        <ion-label>
+          Versión <br>
+          <small>1.0.1</small>
+        </ion-label>
+      </ion-item>
+      <ion-item button class="fondo">
+        <ion-label>Únite a nuestro equipo</ion-label>
+        <ion-icon src="assets/icon/arrow-right.svg" size="small"></ion-icon>
+      </ion-item>
+      <!--<ion-item button class="fondo">
+        <ion-label>Términos de uso y politica de privacidad</ion-label>
+        <ion-icon src="assets/icon/arrow-right.svg" size="small"></ion-icon>
+      </ion-item>-->
+      <ion-item button class="fondo">
+        <ion-label>Legal</ion-label>
+        <ion-icon src="assets/icon/arrow-right.svg" size="small"></ion-icon>
+      </ion-item>
+      <ion-item button class="fondo">
+        <ion-label>Licencias</ion-label>
+        <ion-icon src="assets/icon/arrow-right.svg" size="small"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-content>

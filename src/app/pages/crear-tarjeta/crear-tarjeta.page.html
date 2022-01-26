@@ -1,0 +1,79 @@
+<ion-header class="ion-no-border fondo">
+  <ion-toolbar mode="ios" class="fondo">
+    <!-- <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/perfil"></ion-back-button>
+    </ion-buttons> -->
+    <ion-title>Know</ion-title>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/tabs/perfil">
+        <img src="assets/icon/menu-flip.svg" style="margin-right: 12px !important;" alt="menu"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="fondo">
+  <!-- {{ngForm.value | json}} -->
+  <!-- {{servicios.servicios$ | async | json}} -->
+  <form [formGroup]="ngForm">
+    <ion-grid class="d-flex flex-column justify-content-start px-0">
+      <ion-row class="mx-0 px-0" *ngIf="activos$ | async as activos">
+        <ion-col size="11" sizeSm="10" sizeMd="8" class="m-auto col-no-padding">
+          <ion-row class="py-0">
+            <ion-col class="py-0">
+              <h3 class="py-0 my-2">{{title$ | async}}</h3>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item class="input fondo">
+                <ion-label [position]="'stacked'">Nombre de la tarjeta</ion-label>
+                <!-- <ion-img class="input-icon-end" src="assets/icon/trash.svg"></ion-img>                 -->
+                <ion-input formControlName="nombretarjeta">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <!--<ng-container formArrayName="servicio_list">
+            <ion-row *ngFor="let control of servicio_list.controls; index as i">
+              <ion-col style="text-align: center;" [formGroupName]="i">
+                <ion-item mode="md" class="input fondo">
+                  <ion-label mode="md" [position]="'stacked'">{{control.value.type}}</ion-label>
+                  <ion-img class="input-icon-end" src="assets/icon/trash.svg"
+                           (click)="removeServicio(i)"></ion-img>
+                  <ion-input mode="md" formControlName="value">
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ng-container>-->
+          <!--<ion-row>
+            <ion-col class="ion-padding-top px-0">
+              <p><span class="texto-agregar" (click)="mostrarServicioModal()">+ Agregar servicio</span></p>
+            </ion-col>
+          </ion-row>-->
+
+          <ion-row *ngIf="servicios$ | async as data">
+            <ion-col size="4" *ngFor="let item of data" class="ion-text-center" style="padding: 6px;"
+                     (click)="addServicioModal(item)">
+              <div class="servicio-card" [ngClass]="{'activo': activos[item.id]}">
+                <img class="img-service-logo"
+                     [src]="item.logo ? 'data:image/jpeg;base64,' + item.logo : '/assets/no-imagen.png'"
+                     [alt]="item.type"
+                />
+                <div class="py-1">
+                  <span class="servicio-texto">{{item.type}}</span>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="ion-padding-top px-0 ion-text-center">
+              <ion-button class="button-dark" [disabled]="!valid" expand="block" (click)="crearTarjeta()">Guardar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

@@ -1,0 +1,32 @@
+<ion-tabs (ionTabsWillChange)="changeTab($event)" *ngIf="pathSubject | async as path">
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="compartir">
+        <ion-icon 
+        [src]="urls[path] || '/assets/icon/share-outline.svg'"
+        >
+        </ion-icon>
+      </ion-tab-button>
+      
+      <ion-tab-button tab="amigos">
+        <ion-icon 
+        [src]="urls[path] || '/assets/icon/meet-outline.svg'"
+        ></ion-icon>
+      </ion-tab-button>
+  
+      <!-- <ion-tab-button >
+        <ion-icon color="dark" icon="home"></ion-icon>
+      </ion-tab-button> -->
+  
+      <ion-tab-button tab="perfil" (click)="goTarjetas()">
+        <ion-icon 
+          [src]="urls[path] || '/assets/icon/profile-outline.svg'"
+        ></ion-icon>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="qr">
+        <ion-icon 
+        [src]="urls[path] || '/assets/icon/qr-outline.svg'"
+        ></ion-icon>      
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>

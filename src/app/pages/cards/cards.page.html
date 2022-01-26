@@ -1,0 +1,29 @@
+<ion-content>
+  <jp-cargando *ngIf="(loading$ | async)"></jp-cargando>
+  <swiper #swiper [config]="newConfig" (slideChange)="changeSlide()" *ngIf="!(loading$ | async)">
+    <ng-container *ngFor="let item of tarjetas$ | async">
+      <ng-template swiperSlide>
+        <app-tarjetas [idTarjeta]="item.id" [isDrag]="isDrag"></app-tarjetas>
+      </ng-template>
+    </ng-container>
+  </swiper>
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="m-2" *ngIf="!(loading$ | async)">
+  <ion-fab-button routerLink="/tabs/crear-tarjeta">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+<ion-button (click)="slideright()" class="bleft" fill="outline"
+            *ngIf="(slideIndex | async) < ( tarjetas$ | async).length - 1 && !(loading$ | async)">
+  <ion-icon slot="icon-only" src="/assets/icon/arrow-right.svg"></ion-icon>
+</ion-button>
+
+<ion-button (click)="slideleft()" class="bright" fill="outline"
+            *ngIf="(slideIndex | async) !== 0">
+  <ion-icon slot="icon-only" src="/assets/icon/arrow-left.svg"></ion-icon>
+</ion-button>
+
+<section id="preload-cards" style="display: none;">
+
+</section>

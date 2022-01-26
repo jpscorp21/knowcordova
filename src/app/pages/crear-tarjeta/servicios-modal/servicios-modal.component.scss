@@ -1,0 +1,29 @@
+ion-grid {
+  padding: 0px;
+  padding-top: 12px;
+}
+
+ion-col {
+  padding: 0px;
+}
+
+h3 {
+  padding: 0px;
+  font-size: 24px;
+  margin: 0px;
+  font-weight: bold;
+}
+
+.close {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+
+  ion-icon {
+    color: #aaa;
+  }
+}
+
+small {
+  font-size: 12px;
+}

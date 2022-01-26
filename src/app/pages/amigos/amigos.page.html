@@ -1,0 +1,173 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar mode="ios" class="fondo">
+    <ion-title>Know</ion-title>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/tabs/perfil">
+        <img src="assets/icon/menu-flip.svg" style="margin-right: 12px !important;" alt="menu"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="fondo ion-padding-bottom">
+  <div class="searchbar-container px-3">
+    <ion-searchbar mode="md" #searchbar placeholder="Buscar contactos" (ionChange)="changeSearch($event)">
+      <div class="position"></div>
+    </ion-searchbar>
+    <!-- <img src="assets/icon/search.svg" /> -->
+  </div>
+  <div>
+    <ion-segment mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue">
+      <ion-segment-button value="following">
+        <ion-label>Seguidos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="followers">
+        <ion-label>Seguidores</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pendiente">        
+        <ion-label style="display: flex; align-items:center;">
+          <span class="ion-padding-end">Pendiente</span>
+          <ion-badge *ngIf="(amigos$ | async).followers | pendiente as amigo">
+            <span *ngIf="amigo.length">{{amigo.length}}</span>
+          </ion-badge>
+        </ion-label>        
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+
+  <jp-cargando *ngIf="loading$ | async"></jp-cargando>
+
+
+  <div *ngIf="segmentValue === 'following'">
+    <div *ngIf="amigos$ | async as amigo">
+      <app-amigos-lista [amigos]="amigo.following" [search]="search" (eliminarAmigo)="eliminarAmigo($event)"
+                        (mostrarAmigo)="mostrarAmigo($event)" [loading$]="loading$"></app-amigos-lista>
+    </div>
+  </div>
+  <div *ngIf="segmentValue === 'followers'">
+    <div *ngIf="amigos$ | async as amigo">
+      <app-amigos-lista [amigos]="amigo.followers | pendiente: false" [search]="search" (eliminarAmigo)="eliminarAmigo($event)"
+                        (mostrarAmigo)="mostrarAmigo($event)" [loading$]="loading$"></app-amigos-lista>
+    </div>
+  </div>
+  <div *ngIf="segmentValue === 'pendiente'">
+    <div *ngIf="amigos$ | async as amigo">
+      <app-amigos-lista [amigos]="amigo.followers | pendiente" [pendiente]="true" [search]="search" 
+                        (eliminarAmigo)="eliminarAmigo($event)"
+                        (aceptarAmigo)="aceptarAmigo($event)"
+                        (mostrarAmigo)="mostrarAmigo($event)" [loading$]="loading$"></app-amigos-lista>
+    </div>
+  </div>
+
+
+  <!--<ion-grid class="d-flex flex-column justify-content-center"
+            *ngIf="amigos$ | async as amigos">
+    <ion-row class="my-2" *ngFor="let amigo of amigos | search: (search | async) : 'friendnombre'">
+      <ion-col size="12" class="amigosConfig my-2 d-flex justify-content-start px-2">
+        <ion-avatar (click)="mostrarAmigo(amigo)">
+          <div class="avatar"
+               *ngIf="amigo.friendAvatar"
+               [style.background]="styleImgWithData(amigo.friendAvatar)">
+
+            &lt;!&ndash;<ion-img
+              src="https://st.depositphotos.com/1020341/4233/i/600/depositphotos_42333899-stock-photo-portrait-of-huge-beautiful-male.jpg"></ion-img>&ndash;&gt;
+          </div>
+          <div class="avatar-default" *ngIf="!amigo.friendAvatar">
+            <img
+              [src]="'assets/imagenes/avatarPerfil.svg'"
+              alt="avatar-default"
+            >
+          </div>
+        </ion-avatar>
+        <ion-card-content style="padding-left: 36px; flex: 1;" (click)="mostrarAmigo(amigo)">
+          <ion-label style="font-size: 16px; font-style: normal; font-weight: bold;">{{amigo.friendnombre}}</ion-label>
+
+          <img style="width: 24px; padding-left: 10px;" src="assets/icon/checkBlack.svg"/>
+
+          <br>
+          <ion-label style="font-size: 14px; color: #717171 !important;">Miércoles, 1/28</ion-label>
+          <br>
+
+
+        </ion-card-content>
+
+        <p class="p-0 mx-0">
+          <ion-icon slot="icon-only" name="trash" style="font-size: 22px" (click)="eliminarAmigo(amigo)"></ion-icon>
+        </p>
+      </ion-col>
+      &lt;!&ndash;<ion-col size="8" sizeSm="9" class="amigosConfig d-flex justify-content-start px-2">
+        <ion-card-content>
+          <ion-label style="font-size: 16px; font-style: normal; font-weight: bold;">{{amigo.friendnombre}}</ion-label>
+          <img style="width: 24px; padding-left: 10px;" src="assets/icon/checkBlack.svg"/><br>
+          <ion-label style="font-size: 14px; color: #717171 !important;">Miércoles, 1/28</ion-label>
+          <br>
+
+        </ion-card-content>
+      </ion-col>&ndash;&gt;
+    </ion-row>
+  </ion-grid>-->
+  <!--
+    <ion-row>
+      <ion-col size="4" class="amigosConfig">
+        <ion-avatar>
+          <div class="avatar">
+            <ion-img src="assets/imagenes/avatarPerfil.svg"></ion-img>
+          </div>
+        </ion-avatar>
+      </ion-col>
+      <ion-col size="8" class="amigosConfig">
+        <ion-card-content>
+          <ion-label style="font-size: 16px; font-style: normal; font-weight: bold;">Gustavo López</ion-label>
+          <img style="width: 24px; padding-left: 10px;" src="assets/icon/checkBlack.svg"/><br>
+          <ion-label style="font-size: 14px; color: #717171 !important;">Asunción</ion-label>
+          <br>
+          <ion-label style="font-size: 14px; color: #717171 !important;">Miércoles, 1/28</ion-label>
+        </ion-card-content>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="4" class="amigosConfig">
+        <ion-avatar>
+          <div class="avatar">
+            <ion-img src="assets/imagenes/avatarPerfil.svg"></ion-img>
+          </div>
+        </ion-avatar>
+      </ion-col>
+      <ion-col size="8" class="amigosConfig">
+        <ion-card-content>
+          <ion-label style="font-size: 16px; font-style: normal; font-weight: bold;">Karina Fretez</ion-label>
+          <img style="width: 24px; padding-left: 10px;" src="assets/icon/checkBlack.svg"/><br>
+          <ion-label style="font-size: 14px; color: #717171 !important;">Asunción</ion-label>
+          <br>
+          <ion-label style="font-size: 14px; color: #717171 !important;">Miércoles, 1/28</ion-label>
+        </ion-card-content>
+      </ion-col>
+    </ion-row>
+
+
+
+  <ion-segment style="margin-top: 40px;" class="segment-amigos">
+    <ion-segment-button value="seguidores">
+      <ion-label style="text-transform: capitalize; font-size: 16px; color: black;">Seguidores: {{amigosNumbers | async}}</ion-label>
+    </ion-segment-button>
+    <ion-img src="assets/icon/lines.svg"></ion-img>
+    <ion-segment-button value="seguidos">
+      <ion-label style="text-transform: capitalize; font-size: 16px; color: black;">Seguidos: {{amigosNumbers | async}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <div class="borde" style="margin-top: 0px;"></div>
+  <ion-grid *ngIf="amigos$ | async as amigos">
+    <ion-row *ngFor="let seguidor of amigos" class="ion-padding-horizontal" (click)="mostrarAmigo(seguidor)">
+      <ion-img src="assets/icon/user.svg"></ion-img>
+        <ion-col>{{ seguidor.friendnombre }}</ion-col>
+        <ion-col class="d-flex justify-content-end">{{ 'Amigos' }}</ion-col>
+    </ion-row>
+  </ion-grid>  -->
+  <!-- <ion-searchbar placeholder="Buscar contactos" class="search"></ion-searchbar> -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="m-2">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

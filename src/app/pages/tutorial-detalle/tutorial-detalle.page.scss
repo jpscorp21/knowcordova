@@ -1,0 +1,71 @@
+.preguntas-frecuentes {
+  font-weight: 500;
+  font-size: 24px;
+  color: black;
+  margin-bottom: 0px;
+}
+
+ion-list, ion-item {
+  --ion-padding: 0px;
+}
+
+ion-item {
+  --padding-start: 0px !important;
+}
+
+.button-tutorial {
+
+}
+
+.container {
+  position: relative;
+  min-height: 40%;
+  min-width: 100%;
+  width: 100%;
+  height: 240px;
+  /* min-height: 500px; */
+
+  // background: linear-gradient(360deg, #000000 0%, rgba(0, 0, 0, 0) 40%), url('../../../assets/imagenes/headerViewas.png') center no-repeat;
+  background-size: cover !important;
+  /* transform: rotate(-180deg); */
+}
+
+.opacity-background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+}
+
+.button-tutorial {
+  --border-radius: 20px;
+  --box-shadow: none;
+
+  &.gray {
+    --background: #C2C2C2;
+  }
+}
+
+
+@media screen and (min-width: 640px) and (max-width: 960px) {
+  /* Specific to this particular image */
+  .container {
+    height: 360px;
+  }
+}
+
+@media screen and (min-width: 961px) and (max-width: 1175px) {
+  /* Specific to this particular image */
+  .container {
+    height: 480px;
+  }
+}
+
+@media screen and (min-width: 1176px) {
+  /* Specific to this particular image */
+  .container {
+    height: 480px;
+  }
+}

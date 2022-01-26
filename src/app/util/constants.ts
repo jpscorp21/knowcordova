@@ -1,0 +1,1 @@
+export const PERFIL_KEY = "know-perfil";

@@ -1,0 +1,62 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="fondo">
+    <ion-title>Know</ion-title>
+    <ion-buttons slot="end" style="padding-right: 12px;">
+      <ion-button routerLink="/" routerDirection="root">
+        <img src="assets/icon/menu.svg" class="menu"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <div class="borde"></div>
+
+
+</ion-header>
+
+<ion-content class="fondo">
+  <form [formGroup]="ngForm">
+    <ion-grid class="d-flex flex-column justify-content-start px-0" style="height: 80vh !important;">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="6" sizeSm="4" sizeMd="4" sizeLg="3" sizeXl="2" style="margin: auto; padding-top: 40px;">
+          <ion-img src="assets/smalllogoclaro.png"></ion-img>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="11" sizeSm="10" sizeMd="8" class="m-auto">
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-item class="input fondo">
+                <ion-label [position]="'stacked'">E-mail</ion-label>
+                <ion-input formControlName="email"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-item class="input fondo">
+                <ion-label [position]="'stacked'">Contraseña</ion-label>
+                <ion-input formControlName="password" type="password" (keydown.enter)="hideKeyboard()"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: center;" class="ion-padding-top px-0">
+              <ion-button mode="ios" class="button-dark" expand="block" (click)="iniciarSesion()"
+                          [disabled]="confirmarClicked">
+                Iniciar sesión
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: center;" class="ion-padding-top px-0">
+              <span class="link-text" (click)="forgetPassword()">Olvidé mi contraseña</span>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+
+<section id="preload-login" style="display: none;">
+
+</section>

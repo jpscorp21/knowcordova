@@ -1,0 +1,42 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="fondo" mode="ios">
+    <ion-title class="know-title">Know</ion-title>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/tabs/perfil">
+        <img src="assets/icon/menu-flip.svg" alt="menu"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="fondo">
+  <div class="container" [style.background]="styleImg('assets/tutorial.jpg')">
+    <div class="opacity-background"></div>
+    <div class="texto-imagen">Centro de ayuda</div>
+    <div class="avatar">
+      <!--<ion-avatar>
+        <img [src]="perfil.logo ? 'data:image/jpeg;base64,' + perfil.logo : 'assets/imagenes/avatar.png'"
+             class="w-100" alt="avatar">
+      </ion-avatar-->
+    </div>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" sizeSm="10" sizeMd="8" class="m-auto">
+        <ion-row>
+          <ion-col>
+            <h3 class="titulo-tutorial">Preguntas frecuentes</h3>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-list class="fondo">
+              <ion-item button class="fondo" *ngFor="let item of preguntas" (click)="showDetail(item.id)">
+                <ion-label>{{item.text}}</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

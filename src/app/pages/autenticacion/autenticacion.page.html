@@ -1,0 +1,114 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="fondo">
+    <ion-title>Know</ion-title>
+    <ion-buttons slot="end" style="padding-right: 12px;" class="mx-0">
+      <ion-button>
+        <ion-img src="assets/icon/menu.svg" class="menu"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="fondo">
+<ion-label  style="padding-left: 18px; font-size: 24px; font-weight: bold;">Autenticación</ion-label>
+<ion-card-content style="padding-left: 18px;font-size: 16px; padding-top: 30px;">
+  ¡Ya falta poco! Vas a recibir un código
+  de autenticación en el correo
+  {{(auth && auth.form && auth.form.email ? auth.form.email : 'hola@gmail.com') | emailhidden}}
+  <div style="padding-top: 44px;"></div>
+</ion-card-content>
+<ion-label style="padding-left: 18px;font-size: 16px; font-weight: bold;">Ingresá el código</ion-label>
+<ion-grid class="d-flex flex-column justify-content-start px-0" style="height: 80vh !important;">
+  <ion-row class="border-container">
+    <ion-col>
+      <ion-input
+        class="borderElement"
+        placeholder="0"
+        #input1
+        autofocus
+        maxlength="1"
+        select
+        (paste)="onPasteCode($event)"
+        (keydown)="changeFocus($event, input2, input1)">
+      </ion-input>
+    </ion-col>
+    <ion-col>
+        <ion-input
+          class="borderElement"
+          placeholder="0"
+          #input2
+          maxlength="1"
+          select
+          (paste)="onPasteCode($event)"
+          (keydown)="changeFocus($event, input3, input1)">
+        </ion-input>
+    </ion-col>
+    <ion-col>
+        <ion-input
+          class="borderElement"
+          placeholder="0"
+          #input3
+          maxlength="1"
+          select
+          (paste)="onPasteCode($event)"
+          (keydown)="changeFocus($event, input4, input2)">
+        </ion-input>
+    </ion-col>
+    <ion-col>
+        <ion-input
+          class="borderElement"
+          placeholder="0"
+          #input4
+          maxlength="1"
+          select
+          (paste)="onPasteCode($event)"
+          (keydown)="changeFocus($event, input5, input3)">
+        </ion-input>
+    </ion-col>
+    <ion-col>
+        <ion-input
+          class="borderElement"
+          placeholder="0"
+          #input5
+          maxlength="1"
+          select
+          (paste)="onPasteCode($event)"
+          (keydown)="changeFocus($event, input6, input4)">
+        </ion-input>
+    </ion-col>
+    <ion-col>
+        <ion-input
+          class="borderElement"
+          placeholder="0"
+          #input6
+          maxlength="1"
+          select
+          (paste)="onPasteCode($event)"
+          (keydown)="handleKeyInput6($event, input5)"
+          (keydown.backspace)="changeFocus($event, input5, null)"
+          (keydown.enter)="registrar()"></ion-input>
+    </ion-col>
+  </ion-row>
+
+
+<ion-row class="mx-0">
+    <ion-col size="11" sizeSm="10" sizeMd="8" class="m-auto">
+    <!-- <ion-row>
+      <ion-col style="text-align: center;" class="ion-padding-top px-0">
+        <ion-button type="submit" class="button-dark" expand="block">Siguiente</ion-button>
+      </ion-col>
+    </ion-row> -->
+    <ion-row>
+      <ion-col style="text-align: center;" class="ion-padding-top px-0" >
+        <ion-button type="submit" class="button-dark" expand="block" (click)="registrar()" [disabled]="confirmarClicked | async">Siguiente</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="pb-3">
+      <ion-col style="text-align: center;" class="ion-padding-top px-0" (click)="router.navigateByUrl('/registro')">
+        <span class="link-text">Atrás</span>
+      </ion-col>
+    </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>

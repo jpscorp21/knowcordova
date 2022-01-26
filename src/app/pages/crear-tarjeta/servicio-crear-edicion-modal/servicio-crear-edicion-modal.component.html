@@ -1,0 +1,57 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar mode="ios" class="fondo">
+    <ion-title class="know-title">Know</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" (click)="modal.dismiss()">
+        <ion-icon name="close" class="text-right"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding-vertical fondo" *ngIf="servicio">
+  <ion-grid>
+    <ion-row class="ion-margin-bottom">
+      <ion-col class="ion-text-center">
+        <img
+          [src]="servicio.logo ? 'data:image/jpeg;base64,' + servicio.logo : '/assets/no-imagen.png'"
+          class="img-service-small"/>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-margin-vertical">
+      <ion-col class="ion-text-center">
+        <span class="edicion-type">{{servicio.type}}</span>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-margin-top px-1">
+      <ion-col>
+        <ion-item class="input fondo">
+          <!-- <ion-input [placeholder]="servicio.helper ? 'Ej. ' + (servicio?.helper) : ''" [formControl]="nombre"></ion-input> -->
+          <ion-input [formControl]="nombre"></ion-input>
+        </ion-item>
+        <ion-item lines="none" class="fondo ion-no-padding" style="padding-left: 12px;">
+          <ion-note>{{servicio.helper ? 'Ej. ' + servicio.helper : ''}}</ion-note>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-top px-1">
+      <ion-col>
+        <ion-button type="submit" class="button-dark" expand="block" (click)="abrir()"
+                    [disabled]="!nombre.valid">Abrir
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button type="submit" class="button-dark" expand="block" (click)="guardar()"
+                    [disabled]="!nombre.valid">Guardar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-top px-1" *ngIf="canDelete">
+      <ion-col>
+        <ion-button type="submit" class="button-dark white" expand="block" (click)="eliminar()">Eliminar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

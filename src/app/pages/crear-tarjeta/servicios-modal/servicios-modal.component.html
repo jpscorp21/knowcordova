@@ -1,0 +1,17 @@
+<div class="close text-right">
+  <ion-button fill="clear" size="small" (click)="modal.dismiss()">
+    <ion-icon name="close" class="text-right" [size]="'large'"></ion-icon>
+  </ion-button>
+</div>
+<h3 class="text-center">Agregar un servicio</h3>
+<ion-content class="ion-padding-bottom">
+  <ion-grid>
+    <ion-row *ngIf="servicios$ | async as data">
+      <ion-col size="3" *ngFor="let item of data" class="text-center" (click)="addServicio(item)">
+        <img [src]="item.logo ? 'data:image/jpeg;base64,' + item.logo : '/assets/no-imagen.png'"
+             class="ion-padding-top px-4"/>
+        <small>{{item.type}}</small>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

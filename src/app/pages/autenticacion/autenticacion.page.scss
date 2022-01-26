@@ -1,0 +1,24 @@
+
+.borderElement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  background: #C4C4C4;
+  border-radius: 10px;
+  /*margin: 20%; */
+  height: 65px;
+  --padding-end: 0px !important;
+  --padding-start: 0px !important;
+  text-align: center;
+}
+
+.border-container {
+  padding-top: 35px;
+  padding-right: 24px;
+  padding-left: 24px;
+  width: 300px;
+  margin: 0 auto;
+}

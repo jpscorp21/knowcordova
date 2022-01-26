@@ -1,0 +1,49 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar mode="ios" class="fondo">
+    <ion-title class="know-title">Know</ion-title>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/tabs/perfil">
+        <img src="assets/icon/menu-flip.svg" alt="menu"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="fondo">
+  <ion-label class="texto">Compartir</ion-label>
+  <ion-grid class="redesSociales">
+    <ion-row *ngIf="tarjeta$ | async as elementos">
+      <!-- <div > -->
+      <!-- <ion-col *ngFor="let item of elementos" size="4" sizeSm="4" sizeMd="3" sizeLg="2" class="ion-text-center">
+        <img [src]="item" />
+      </ion-col> -->
+      <ion-col *ngFor="let item of elementos.tarjetaservicioList | orden; let i = index" size="4" sizeSm="4" sizeMd="3"
+               sizeLg="2" class="ion-text-center">
+        <img
+          [src]="item.servicio.logo ? 'data:image/jpeg;base64,' + item.servicio.logo : '/assets/no-imagen.png'"
+          width="92px"
+          height="92px"
+          [alt]="item.servicio.type"
+          [style.opacity]="elementos.openfirst && i !== 0 ? '0.1' : '1'"
+        />
+      </ion-col>
+
+
+      <!-- </div> -->
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-padding">
+        <ion-button
+          [vcdDownloadVCard]="vCard"
+          [encoding]="vCardEncoding.none"
+          class="button-dark"
+          [expand]="'block'"
+          (click)="compartir()"
+        >
+          Compartir
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

@@ -1,0 +1,85 @@
+<ion-content class="fondo">
+  <div class="container" *ngIf="perfil.perfil$ | async as perfil" [style.background]="styleImg(perfil.avatar)">
+
+    <div class="menuClass">
+      <img src="assets/icon/menu.svg" style="margin-right: 12px !important;" />
+    </div>
+
+    <div class="avatar">
+      <ion-avatar>
+        <ion-img [src]="perfil.logo ? 'data:image/jpeg;base64,' + perfil.logo : 'assets/imagenes/avatar.png'"></ion-img>
+      </ion-avatar>
+    </div>
+    <ion-title mode="md">{{perfil.nombre}} {{perfil.apellido}}</ion-title>
+  </div>
+
+  <ion-grid class="d-flex flex-column justify-content-start px-0">
+    <ion-row class="mx-0">
+      <ion-col size="11" sizeSm="10" sizeMd="8" class="m-auto">
+
+        <ion-row *ngIf="perfil.perfil$ | async as perfil" class="py-2 mx-0">
+          <ion-col class="py-0 mx-0">
+            <ion-item class="fondo item-telefono">
+              <ion-img src="assets/icon/phone.svg"></ion-img>
+              <ion-label class="labelClass px-4">
+                {{perfil.telefono}}
+              </ion-label>
+            </ion-item>
+            <!-- <div class="tarjetasClass"></div> -->
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="perfil.perfil$ | async as perfil" class="px-0 mx-0 ion-padding-bottom pb-4">
+          <ion-col class="px-0 mx-0">
+            <ion-item class="fondo" >
+              <ion-img src="assets/icon/correo.svg"></ion-img>
+              <ion-label class="labelClass px-4">{{perfil.email}}</ion-label>
+            </ion-item>
+            <!-- <div class="tarjetasClass"></div> -->
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="py-0 pb-0 ">
+          <ion-col class="py-0 pb-3">
+            <h3 class="py-0 my-0">Mis tarjetas</h3>
+          </ion-col>
+        </ion-row>
+        <!-- <div *ngIf="(tarjtasServicios.loadingByPersona | async) === false || (tarjtasServicios.successByPersona | async)"> -->
+        <ion-row class="py-0 my-0" *ngFor="let item of tarjetas$ | async">
+          <ion-col class="py-0">
+            <ion-card mode="md" button class="px-0 mx-0 card" (click)="abrirTarjeta(item)">
+              <ion-card-content class="p-0">
+                <ion-item
+                  *ngIf="perfil.perfil$ | async as perfil"
+                  lines="none"
+                  [color]="perfil.idtarjetaselected === item.id ? 'dark' : ''">
+                  <ion-img
+                    [src]="perfil.idtarjetaselected === item.id ? 'assets/icon/checked-white.svg' : 'assets/icon/checked.svg'"
+                    class="card-icon"
+                  ></ion-img>
+                  <ion-label class="card-label">{{item.nombretarjeta}}</ion-label>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row style="margin-top: 15px;">
+          <ion-col>
+            <ion-button routerLink="/tabs/crear-tarjeta" expand="block" size="large"  class="buttonBlack d-flex ion-justify-content-space-between">
+              <span>Crear tarjeta</span>
+              <span style="flex: 1;"></span>
+              <ion-img src="assets/icon/tarjeta.svg" class="iconClass"></ion-img>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <!-- </div> -->
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div style="margin-top:50px;"></div>
+
+</ion-content>
+
+<section id="preload-tarjetas" style="display: none;">
+
+</section>

@@ -1,0 +1,46 @@
+<ion-content>
+  <div class="container">
+    <ion-chip class="configuration" routerLink="/tabs/tarjetas">
+      <ion-label style="font-size: 10px; margin-left: 25px;">Seguidos</ion-label>
+      <ion-avatar class="d-flex justify-content-end">
+        <!-- <ion-img src="assets/icon/configuration.svg"></ion-img> -->
+      </ion-avatar>
+    </ion-chip>
+    <div class="menuClass" (click)="goTarjetas()">
+      <img src="assets/icon/menu.svg" style="margin-right: 12px !important;"/>
+    </div>
+    <div class="avatar">
+      <ion-avatar>
+
+        <ion-img src="assets/imagenes/perfilSeguidor.png"></ion-img>
+      </ion-avatar>
+    </div>
+  </div>
+
+  <ion-title *ngIf="amigos.amigoData">{{amigos.amigoData.nombre}} {{amigos.amigoData.apellido}}</ion-title>
+  <div class="clipConfiguration">
+    <img src="assets/icon/clip.svg"/>
+  </div>
+
+  <ion-grid>
+    <ion-row class="redesSociales" *ngIf="(servicios$ | async) as servicios">
+      <ion-col
+        *ngFor="let item of servicios"
+        size="6"
+        sizeSm="4"
+        sizeMd="3"
+        sizeLg="2"
+        class="ion-text-center colBoxShadow">
+        <img [src]="item.servicio.logo ? 'data:image/jpeg;base64,' + item.servicio.logo : '/assets/no-imagen.png'"
+             (click)="abrirUrl(item)" class="img-service"/>
+        <ion-label style="font-size: 16px; color: black;"
+                   class="ion-text-center d-flex flex-column justify-content-center">{{item.servicio.type}}</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="m-2">
+    <ion-fab-button routerLink="/tabs/crear-tarjeta">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

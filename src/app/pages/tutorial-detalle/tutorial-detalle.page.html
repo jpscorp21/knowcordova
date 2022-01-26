@@ -1,0 +1,56 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="fondo" mode="ios">
+    <ion-title class="know-title">Know</ion-title>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/tabs/tutorial" router-direction="back">
+        <img src="assets/back.svg" alt="menu"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="fondo">
+  <ion-grid *ngIf="pregunta$ | async as pregunta">
+    <ion-row *ngIf="pregunta">
+      <ion-col size="12" sizeSm="10" sizeMd="8" class="m-auto">
+        <ion-row>
+          <ion-col>
+            <h3 class="preguntas-frecuentes">{{pregunta.text}}</h3>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="pregunta$ | async as pregunta">
+          <ion-col *ngIf="pregunta">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus blanditiis consequuntur culpa debitis
+              deserunt explicabo facilis fugiat, harum nisi perferendis placeat possimus quos suscipit. Aliquid earum
+              laborum nihil suscipit vero.</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <h5>Te fué útil esta información?</h5>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-text-center px-2">
+            <ion-button class="button-tutorial gray" expand="block">
+              <ion-img src="assets/emoji.svg"></ion-img>
+            </ion-button>
+          </ion-col>
+          <ion-col class="ion-text-center px-2">
+            <ion-button class="button-tutorial" expand="block">
+              <ion-img src="assets/emoji-happy.svg"></ion-img>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="text-align: center;" class="mt-3">
+            <ion-item class="input fondo">
+              <ion-textarea [formControl]="comentario" rows="4" placeholder="Dejanos un comentario" autofocus
+                            class="nombre"></ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
