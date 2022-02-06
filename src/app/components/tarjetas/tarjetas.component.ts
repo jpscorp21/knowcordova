@@ -25,6 +25,7 @@ import { TarjetaContactoModalComponent } from "../tarjeta-contacto/tarjeta-conta
 import { NfcService } from 'src/app/services/nfc.service';
 import { Ndef, NFC } from '@awesome-cordova-plugins/nfc/ngx';
 import { BackgroundMode } from '@awesome-cordova-plugins/background-mode/ngx';
+import {ModalPageService} from "../../services/modal-page.service";
 
 @Component({
   selector: 'app-tarjetas',
@@ -42,23 +43,18 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
   textoAbrir = new BehaviorSubject('Abrir todos');
   tarjetaservicioId = new BehaviorSubject<number>(-1);
-
   subscriptions: Array<Subscription> = new Array<Subscription>();
-
   isUpdate = new BehaviorSubject(false);
-
   segmentValue = 'abrirPrimero';
-
   tarjeta$: Observable<Tarjeta> = null;
-
   plataforma;
-
   subscriptionExit = new Subscription();
 
   constructor(
     public readonly servicio: ServiciosService,
     public readonly tarjetasServicio: TarjetaservicioService,
     public readonly tarjetas: TarjetasService,
+    private readonly modalPage: ModalPageService,
     public readonly perfil: PerfilService,
     public readonly route: ActivatedRoute,
     public readonly sanitizer: DomSanitizer,
@@ -76,7 +72,7 @@ export class TarjetasComponent implements OnInit, OnDestroy {
     private ndef: Ndef,
     private tagService: TagsService,
     private platform: Platform,
-    
+
   ) {
   }
 
@@ -86,7 +82,7 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
   styleImgDefault(url: string) {
     return this.util.styleImgDefault(url);
-  }  
+  }
 
   ngOnInit() {
     this.tarjeta$ = combineLatest([this.tarjetas.getTarjeta(this.idTarjeta), this.isUpdate])
@@ -173,6 +169,9 @@ export class TarjetasComponent implements OnInit, OnDestroy {
   }
 
   async showMostrarVerComo(tarjeta: Tarjeta) {
+
+    this.modalPage.setOnModal(true);
+
     const modal = await this.modal.create({
       component: TarjetaVercomoModalComponent,
       mode: 'ios',
@@ -183,10 +182,12 @@ export class TarjetasComponent implements OnInit, OnDestroy {
     });
 
     await modal.present();
-
+    await modal.onDidDismiss();
+    this.modalPage.setOnModal(false);
   }
 
   async showMostrarRenombrarTarjeta(tarjeta: Tarjeta) {
+    this.modalPage.setOnModal(true);
     const modal = await this.modal.create({
       component: TarjetaRenombrarComponent,
       mode: 'ios',
@@ -197,6 +198,8 @@ export class TarjetasComponent implements OnInit, OnDestroy {
     });
 
     await modal.present();
+    await modal.onDidDismiss();
+    this.modalPage.setOnModal(false);
   }
 
   async eliminarTarjeta(tarjeta: Tarjeta) {
@@ -262,6 +265,7 @@ export class TarjetasComponent implements OnInit, OnDestroy {
   }
 
   async mostrarServicioModal() {
+    this.modalPage.setOnModal(true);
     const modal = await this.modal.create({
       component: ServiciosModalComponent,
       mode: 'ios',
@@ -273,7 +277,10 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
     modal.present();
 
+
     const { data } = await modal.onDidDismiss<Servicio>();
+
+    this.modalPage.setOnModal(false);
 
     if (!data) {
       return;
@@ -292,6 +299,7 @@ export class TarjetasComponent implements OnInit, OnDestroy {
   }
 
   async mostrarServicioEdicion(tarjetaServicio: TarjetaServicio) {
+    this.modalPage.setOnModal(true)
     const modal = await this.modal.create({
       component: ServicioEdicionModalComponent,
       mode: 'ios',
@@ -304,11 +312,14 @@ export class TarjetasComponent implements OnInit, OnDestroy {
     });
 
     await modal.present();
+    await modal.onDidDismiss()
+    this.modalPage.setOnModal(false);
 
     this.cdr.detectChanges();
   }
 
   async mostrarCompartirContacto(tarjeta: Tarjeta) {
+    this.modalPage.setOnModal(true)
     const modal = await this.modal.create({
       component: TarjetaContactoModalComponent,
       mode: 'ios',
@@ -319,10 +330,14 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
     await modal.present();
 
+    await modal.onDidDismiss()
+    this.modalPage.setOnModal(false)
+
     this.cdr.detectChanges();
   }
 
   async compartirModal(tarjeta: Tarjeta) {
+    this.modalPage.setOnModal(true)
     const modal = await this.modal.create({
       component: CompartirModalComponent,
       mode: 'ios',
@@ -334,10 +349,14 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
     await modal.present();
 
+    await modal.onDidDismiss()
+    this.modalPage.setOnModal(false)
+
     this.cdr.detectChanges();
   }
 
   async mostrarQr(tarjeta: Tarjeta) {
+    this.modalPage.setOnModal(true)
     const modal = await this.modal.create({
       component: TarjetaQrModalComponent,
       mode: 'ios',
@@ -348,6 +367,8 @@ export class TarjetasComponent implements OnInit, OnDestroy {
     });
 
     await modal.present();
+    await modal.onDidDismiss()
+    this.modalPage.setOnModal(false)
 
     this.cdr.detectChanges();
   }
@@ -368,6 +389,7 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
     try {
 
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       const servicio_list: any[] = TarjetasComponent.mapServicios(tarjeta.tarjetaservicioList);
 
       const dataForSave: TarjetaPost = {
@@ -447,9 +469,9 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
   async procesarNfc(tarjeta: Tarjeta, texto: string, data: any) {
 
-    console.log('Creaste el nfc'); 
+    console.log('Creaste el nfc');
 
-    this.nfcService.nfcFromTag()    
+    this.nfcService.nfcFromTag()
 
     const ndefMsg = new Array(this.ndef.textRecord(texto));
 

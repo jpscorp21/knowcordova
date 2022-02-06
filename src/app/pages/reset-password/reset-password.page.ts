@@ -74,6 +74,7 @@ export class ResetPasswordPage implements OnInit, AfterViewInit {
   createForm() {
     this.ngForm = this.formBuilder.group({
       password: ['', Validators.required],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       password_confirmation: ['', Validators.required],
     }, {
       validator: this.passwordMatchValidator

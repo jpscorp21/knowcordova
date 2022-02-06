@@ -83,7 +83,7 @@ export class LoginPage implements OnInit {
         this.ngForm.reset();
 
 
-        await this.router.navigateByUrl('/tabs/cards/0');
+        await this.router.navigate(['/tabs/cards/0'], );
       } else {
         await this.toast.create('Dirección de correo electrónico o contraseña no válidos');
       }
@@ -99,6 +99,6 @@ export class LoginPage implements OnInit {
   }
 
   forgetPassword() {
-    this.router.navigateByUrl('/forget-password');
+    this.router.navigate(['/forget-password'], );
   }
 }

@@ -1,5 +1,5 @@
 import {
-  AfterContentChecked,
+  AfterContentChecked, AfterViewInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   OnDestroy,
@@ -17,9 +17,10 @@ import {PERFIL_KEY} from 'src/app/util/constants';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {SelectiveLoadingStrategy} from 'src/app/selective-loading-strategy';
 import {SwiperComponent} from 'swiper/angular';
-import {SwiperOptions} from "swiper";
+import {SwiperOptions} from 'swiper';
 import SwiperCore, {EffectFlip, Pagination} from 'swiper/core';
 import { BackgroundMode } from '@awesome-cordova-plugins/background-mode/ngx';
+import {ModalPageService} from "../../services/modal-page.service";
 
 SwiperCore.use([Pagination, EffectFlip]);
 
@@ -30,9 +31,9 @@ SwiperCore.use([Pagination, EffectFlip]);
   styleUrls: ['./cards.page.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class CardsPage implements OnInit, AfterContentChecked, OnDestroy {
+export class CardsPage implements OnInit, AfterContentChecked, OnDestroy, AfterViewInit {
 
-  @ViewChild('swiper') swiper: SwiperComponent
+  @ViewChild('swiper') swiper: SwiperComponent;
   @ViewChild('slides') slides: IonSlides;
 
 
@@ -49,6 +50,7 @@ export class CardsPage implements OnInit, AfterContentChecked, OnDestroy {
     public readonly tarjetas: TarjetasService,
     public readonly route: ActivatedRoute,
     private readonly router: Router,
+    private readonly modalPage: ModalPageService,
     public readonly auth: AuthService,
     public readonly platform: Platform,
     public readonly perfil: PerfilService,
@@ -58,17 +60,19 @@ export class CardsPage implements OnInit, AfterContentChecked, OnDestroy {
   ) {
   }
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   newConfig: SwiperOptions = this.platform.is('ios') ? {
     slidesPerView: 'auto',
   } : {
     slidesPerView: 'auto',
     effect: 'flip',
-  }
+  };
 
   get loading$() {
     return this.tarjetas.loading$;
   }
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   tarjetas$ = this.tarjetas.getTarjetas();
 
   get id() {
@@ -85,8 +89,9 @@ export class CardsPage implements OnInit, AfterContentChecked, OnDestroy {
       this.loader.preLoadRoute('qr');
       this.loader.preLoadRoute('crear-tarjeta');
       this.loader.preLoadRoute('compartir');
-    }, 100)
-  }  
+    }, 100);
+    this.router.initialNavigation();
+  }
 
   ionViewDidEnter() {
     const preloadArea: HTMLElement = document.getElementById('preload-cards');
@@ -98,18 +103,15 @@ export class CardsPage implements OnInit, AfterContentChecked, OnDestroy {
     preloadArea.appendChild(document.createElement('ion-img'));
 
     console.log(this.router.url);
-    
+
 
     this.subscriptionExit = this.platform.backButton.subscribe(() => {
-      if (this.router.url.indexOf('cards') > -1) {
-        console.log(navigator);
-        
-        // navigator['app'].moveToBackground();
-        
-        //this.bm.overrideBackButton()
-        this.bm.moveToBackground()
-      }      
-    }); 
+      if (this.router.url.indexOf('cards') > -1 && !this.modalPage.onModal) {
+        this.bm.moveToBackground();
+      } else {
+        console.log('No cierres')
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -118,18 +120,18 @@ export class CardsPage implements OnInit, AfterContentChecked, OnDestroy {
       if (this.swiper && this.swiper.swiperRef) {
         this.swiper.swiperRef.allowTouchMove = !value;
       }
-    })
+    });
 
     if (this.perfil.perfil && this.perfil.perfil.idtarjetaselected) {
       this.subscription = this.tarjetas.tarjetasByPersona$.subscribe((tarjetas) => {
         if (tarjetas && Object.keys(tarjetas).length) {
-          const index = Object.values(tarjetas).findIndex(x => x.id === this.perfil.perfil.idtarjetaselected)
+          const index = Object.values(tarjetas).findIndex(x => x.id === this.perfil.perfil.idtarjetaselected);
           if (this.swiper && this.swiper.swiperRef) {
             this.swiper.swiperRef.slideTo(index);
             this.slideIndex.next(index);
           }
         }
-      })
+      });
     }
   }
 
@@ -156,7 +158,7 @@ export class CardsPage implements OnInit, AfterContentChecked, OnDestroy {
     const res = this.swiper.swiperRef.realIndex;
 
     this.slideIndex.next(res);
-    this.cdr.detectChanges()
+    this.cdr.detectChanges();
 
 
     if (!Object.values(this.tarjetas.tarjetasByPersona)[res]) {
@@ -167,7 +169,7 @@ export class CardsPage implements OnInit, AfterContentChecked, OnDestroy {
       ...this.perfil.perfil,
       idtarjetaselected: Object.values(this.tarjetas.tarjetasByPersona)[res].id,
       isChange: true,
-    }
+    };
 
     localStorage.setItem(PERFIL_KEY, JSON.stringify(data));
     this.perfil.setPerfil(data);

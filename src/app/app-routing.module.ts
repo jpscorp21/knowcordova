@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { UserGuard } from './guards/user.guard';
 import { SelectiveLoadingStrategy } from './selective-loading-strategy';
+import {LoggedGuard} from './guards/logged.guard';
 
 const routes: Routes = [
   {
@@ -24,11 +25,13 @@ const routes: Routes = [
   },
   {
     path: 'login',
+    canActivate: [LoggedGuard],
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule),
     data: {name: 'login'}
   },
   {
     path: 'registro',
+    canActivate: [LoggedGuard],
     loadChildren: () => import('./pages/registro/registro.module').then(m => m.RegistroPageModule),
     data: {name: 'registro'}
   },
@@ -61,6 +64,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/terminos-condiciones/terminos-condiciones.module').then(m => m.TerminosCondicionesPageModule)
   },
   {
+    canActivate: [LoggedGuard],
     path: 'forget-password',
     loadChildren: () => import('./pages/forget-password/forget-password.module').then( m => m.ForgetPasswordPageModule)
   },

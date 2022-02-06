@@ -1,31 +1,31 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {SelectiveLoadingStrategy} from 'src/app/selective-loading-strategy';
 import {PerfilService} from 'src/app/services/perfil.service';
 import {PERFIL_KEY} from 'src/app/util/constants';
-declare var cordova: any; 
 import {PersonaCount} from 'src/app/interfaces/interface';
 import {BehaviorSubject, Subscription} from 'rxjs';
-import { AlertService } from 'src/app/services/shared/alert.service';
-import { QRService } from 'src/app/services/qr.service';
-import { QRSampleService } from 'src/app/services/qr.sample.service';
-import { NfcService } from 'src/app/services/nfc.service';
-import { Platform } from '@ionic/angular';
+import {AlertService} from 'src/app/services/shared/alert.service';
+import {QRService} from 'src/app/services/qr.service';
+import {NfcService} from 'src/app/services/nfc.service';
+import {Platform} from '@ionic/angular';
+
+declare let cordova: any;
 
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
   styleUrls: ['./perfil.page.scss'],
 })
-export class PerfilPage implements OnInit {
+export class PerfilPage implements OnInit, OnDestroy {
 
   subscriptionExit = new Subscription();
 
-  constructor(    
+  constructor(
     public perfil: PerfilService,
     private readonly router: Router,
     private readonly alert: AlertService,
-    private loader: SelectiveLoadingStrategy,    
+    private loader: SelectiveLoadingStrategy,
     private readonly qr: QRService,
     private readonly nfc: NfcService,
     private readonly platform: Platform
@@ -38,7 +38,7 @@ export class PerfilPage implements OnInit {
     this.loader.preLoadRoute('tutorial');
     this.loader.preLoadRoute('acercade');
     this.loader.preLoadRoute('viewas');
-    this.loader.preLoadRoute('reset-password');    
+    this.loader.preLoadRoute('reset-password');
 
   }
 
@@ -60,21 +60,21 @@ export class PerfilPage implements OnInit {
       }),
       share(),
       shareReplay()
-    )*/    
+    )*/
     this.subscriptionExit = this.platform.backButton.subscribe(() => {
-      // if (this.router.url.indexOf('cards') > -1) {      
-        const tarjetaSelected = this.perfil.perfil?.idtarjetaselected ?? 0  
+      // if (this.router.url.indexOf('cards') > -1) {
+        const tarjetaSelected = this.perfil.perfil?.idtarjetaselected ?? 0;
         if (tarjetaSelected) {
           this.router.navigateByUrl('/tabs/cards/' + tarjetaSelected);
         } else {
           this.router.navigateByUrl('/tabs/cards/0');
         }
-      // }      
-    }); 
+      // }
+    });
   }
 
-  editarPerfil() {
-    this.router.navigateByUrl('/tabs/perfil-edicion');
+  async editarPerfil() {
+    await this.router.navigateByUrl('/tabs/perfil-edicion');
   }
 
   logout() {
@@ -92,21 +92,21 @@ export class PerfilPage implements OnInit {
     });
   }
 
-  async verTerminos() {    
+  async verTerminos() {
     if (cordova) {
-      cordova.InAppBrowser.open(`http://knownfc.com/knowcontent/terms.pdf`, '_system', 'location=yes,beforeload=yes');                    
+      cordova.InAppBrowser.open(`http://knownfc.com/knowcontent/terms.pdf`, '_system', 'location=yes,beforeload=yes');
     }
   }
 
   async openQrScanner() {
-    const barcode = await this.qr.openQrScanner() as any;                
+    const barcode = await this.qr.openQrScanner() as any;
     if (barcode && barcode.text) {
       const [usuario, idtarjeta] = barcode.text.split('/')[4].split('.');
-      this.nfc.openTarjetaAmigoConectar({usuario, idtarjeta: Number(idtarjeta)})
-    }        
+      await this.nfc.openTarjetaAmigoConectar({usuario, idtarjeta: Number(idtarjeta)});
+    }
   }
 
-  ngOnDestroy() {    
+  ngOnDestroy() {
     this.subscriptionExit.unsubscribe();
   }
 }
