@@ -28,7 +28,7 @@ export class NfcService {
               private platform: Platform) {
 
       // this.platform.ready().then(() => {
-      //   this.ready.next(true);                    
+      //   this.ready.next(true);
       // })
   }
 
@@ -120,12 +120,13 @@ export class NfcService {
   }
 
   nfcFromTag() {
-    // if (this.ready.getValue()) {      
-      
+    // if (this.ready.getValue()) {
+
       let subscription = new Subscription();
-      subscription = this.nfcCtrl.addMimeTypeListener('text/plain').subscribe((data) => {        
-        console.log("NFC ABRA CADABRA", data);  
-        const message = this.util.bytesToString((data.tag?.ndefMessage[0]?.payload));                     
+
+      subscription = this.nfcCtrl.addMimeTypeListener('http').subscribe((data) => {
+        console.log("NFC ABRA CADABRA", data);
+        const message = this.util.bytesToString((data.tag?.ndefMessage[0]?.payload));
 
         const [usuario, idtarjeta] = message.split('/')[2].split('.');
         this.openTarjetaAmigoConectar({usuario, idtarjeta: Number(idtarjeta)})
@@ -133,7 +134,7 @@ export class NfcService {
 
       this.subscripcion.push(subscription);
 
-    //}    
+    //}
   }
 
   async nfcFromTagUnsubscripcion() {

@@ -158,7 +158,7 @@ export class TarjetasComponent implements OnInit, OnDestroy {
       case 'COMPARTIR':
         return this.compartirModal(tarjeta);
       case 'VINCULAR':
-        return this.vincularTag(tarjeta, `knownfc.com/profile/${this.perfil.perfil.username}.${tarjeta.id}`);
+        return this.vincularTag(tarjeta, `http://knownfc.com/profile/${this.perfil.perfil.username}.${tarjeta.id}`);
       case 'DESVINCULAR':
         return this.desvincularTarjeta(tarjeta);
       case 'MOSTRAR_QR':
@@ -473,7 +473,7 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
     this.nfcService.nfcFromTag()
 
-    const ndefMsg = new Array(this.ndef.textRecord(texto));
+    const ndefMsg = new Array(this.ndef.uriRecord(texto));
 
     const resp = await this.nfcCtrl.write(ndefMsg)
       .then(() => {
