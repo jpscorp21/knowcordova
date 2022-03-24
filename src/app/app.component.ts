@@ -33,7 +33,7 @@ export class AppComponent {
     public tarjetas: TarjetasService,
     public amigos: AmigosService,
     public tarjtasServicios: TarjetaservicioService,
-    public ngZone: NgZone,    
+    public ngZone: NgZone,
     public nfc: NfcService,
     public storage: StorageService,
     public platform: Platform,
@@ -42,39 +42,41 @@ export class AppComponent {
   ) {
     this.ngZone.run(() => {
       // this.deepLinks();
-      
+
     })
   }
- 
+
   ngOnInit() {
     this.platform.ready().then(async () => {
-      this.initializeApp();
+
       if (this.platform.is('android') || this.platform.is('ios')) {
         this.statusBar.styleBlackOpaque();
-        this.splashScreen.hide();        
+        this.splashScreen.hide();
       }
-      
+
+      this.initializeApp();
+
       this.perfil.initPerfil();
       this.servicios.getAllProxy();
-  
+
       const tarjetas = await this.storage.get('tarjetas');
-  
+
       if (tarjetas) {
         this.tarjetas.setTarjetasByPersona(tarjetas);
       } else {
         this.tarjetas.resetByPersona();
       }
-  
+
       this.perfil.changePerfilAction$.subscribe(async (perfil) => {
         if (perfil && perfil.id) {
           this.amigos.resetByPersona();
           this.amigos.getByPersonaProxy(perfil.id);
           this.tarjetas.getByPersonaProxy(perfil.id);
-  
-  
+
+
         }
-      })      
-    })    
+      })
+    })
   }
 
   initializeApp() {
@@ -83,23 +85,25 @@ export class AppComponent {
     this.openTarjetaAmigoConectar({usuario, idtarjeta: Number(idtarjeta)})*/
 
     this.deeplinks.route({}).subscribe(match => {
-      console.log('Funcionando')
-      console.log(match); 
+      //console.log('Funcionando')
+      //console.log(match);
     }, nomatch => {
-      console.log(nomatch);
-      console.log(nomatch.$link);
-      
+      //console.log(nomatch);
+      //console.log(nomatch.$link);
+
       // if (!nomatch || nomatch.$link || !nomatch.$link.url) {
       //   return;
       // }
 
-      const [usuario, idtarjeta] = nomatch.$link.url.split('/')[4].split('.');
-      this.openTarjetaAmigoConectar({usuario, idtarjeta: Number(idtarjeta)})
-      
-      
+      if (nomatch && nomatch.$link && nomatch.$link.url) {
+        const [usuario, idtarjeta] = nomatch.$link.url.split('/')[4].split('.');
+        this.openTarjetaAmigoConectar({usuario, idtarjeta: Number(idtarjeta)})
+      }
     })
-    
-    this.nfc.nfcFromTag();    
+
+    // if (NFC.installed() && NFC.getPlugin()) {
+      this.nfc.nfcFromTag();
+    //}
   }
 
   async openTarjetaAmigoConectar(data: { usuario: string, idtarjeta: number }) {

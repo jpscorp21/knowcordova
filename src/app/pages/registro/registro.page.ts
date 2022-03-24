@@ -16,7 +16,7 @@ import { ToastService } from 'src/app/services/shared/toast.service';
 export class RegistroPage implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('usuario') usuarioInput: IonInput;
-  
+
   public ngForm: FormGroup;
 
   nextForm = new BehaviorSubject(1);
@@ -32,7 +32,7 @@ export class RegistroPage implements OnInit, AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private toast: ToastService,
   ) {
-    this.createForm();    
+    this.createForm();
   }
 
   get valid() {
@@ -55,28 +55,28 @@ export class RegistroPage implements OnInit, AfterViewInit, OnDestroy {
 
   createForm() {
     this.ngForm = this.formBuilder.group({
-      email: ['', { 
-        validators: [Validators.required, Validators.email], 
-        // asyncValidators: [this.verificarEmail.bind(this)],         
+      email: ['', {
+        validators: [Validators.required, Validators.email],
+        // asyncValidators: [this.verificarEmail.bind(this)],
       }
       ],
       password: ['', Validators.required],
-      password_confirmation: 
+      password_confirmation:
       [
         '',
         {
           validators: [Validators.required]
-        }         
+        }
       ],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      telefono: [''],      
-      username: ['', { 
-        validators: [Validators.required], 
-        // asyncValidators: [this.verificarUsername.bind(this)],         
+      telefono: [''],
+      username: ['', {
+        validators: [Validators.required],
+        // asyncValidators: [this.verificarUsername.bind(this)],
       }],
       avatar: [''],
-    }, {      
+    }, {
       validators: [this.passwordMatchValidator()]
     });
   }
@@ -90,26 +90,26 @@ export class RegistroPage implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    
+
     try {
-      
-      this.confirmarClicked.next(true);    
+
+      this.confirmarClicked.next(true);
 
       const dataForSave: PersonaRegistro = {
         nombre: this.ngForm.value.nombre,
-        apellido: this.ngForm.value.apellido, 
-        telefono: this.ngForm.value.telefono, 
+        apellido: this.ngForm.value.apellido,
+        telefono: this.ngForm.value.telefono,
         email: this.ngForm.value.email,
         password: this.ngForm.value.password,
         username: this.ngForm.value.username,
         avatar: this.ngForm.value.avatar,
-      }      
-          
-      const data = await this.auth.verificacionEmail(dataForSave);      
+      }
+
+      const data = await this.auth.verificacionEmail(dataForSave);
 
       if (data && data.dsc && data.codigo) {
-        this.auth.codigo = data.codigo; 
-        this.confirmarClicked.next(false);      
+        this.auth.codigo = data.codigo;
+        this.confirmarClicked.next(false);
         this.auth.form = {...dataForSave};
         this.router.navigateByUrl('/autenticacion');
       }
@@ -122,8 +122,8 @@ export class RegistroPage implements OnInit, AfterViewInit, OnDestroy {
       //   // this.perfil.initPerfil();
 
       //   this.ngForm.reset();
-                
-        
+
+
       //   await this.router.navigateByUrl('/');
       //   this.nextForm.next(1);
       // } else {
@@ -141,27 +141,35 @@ export class RegistroPage implements OnInit, AfterViewInit, OnDestroy {
     this.nextForm.next(2);
     setTimeout(() => {
        (document.querySelector('.nombre input') as HTMLInputElement).focus();
-    }, 100) 
+    }, 100)
   }
 
   submit() {
     console.log('submit');
   }
 
-  async modelChange(event: any) {        
-    try {      
+  async modelChange(event: any) {
+    try {
+
       const username = event.detail.value as string;
       this.existeUsuario.next(false);
       this.loadingCorreo.next(true);
 
-      const persona = await this.auth.getByUsername(username).toPromise();
-      this.loadingCorreo.next(false);      
-      if (persona) {                        
-        this.existeUsuario.next(true);        
-        this.ngForm.controls.username.setErrors({ UserExists: true });        
+      if (/\s/.test(username)) {
+        this.ngForm.controls.username.setErrors({ UserEmpty: true });
+        return;
       } else {
-        this.ngForm.controls.username.setErrors(null);                
-      }      
+        this.ngForm.controls.username.setErrors(null);
+      }
+
+      const persona = await this.auth.getByUsername(username).toPromise();
+      this.loadingCorreo.next(false);
+      if (persona) {
+        this.existeUsuario.next(true);
+        this.ngForm.controls.username.setErrors({ UserExists: true });
+      } else {
+        this.ngForm.controls.username.setErrors(null);
+      }
 
       this.cdr.detectChanges();
     } catch(e) {
@@ -171,19 +179,19 @@ export class RegistroPage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  async modelChangeEmail(event: any) {        
-    try {      
+  async modelChangeEmail(event: any) {
+    try {
       const email = event.detail.value as string;
       this.existeCorreo.next(false);
       this.loadingCorreo.next(true);
 
       const persona = await this.auth.getByEmail(email).toPromise();
-      this.loadingCorreo.next(false);      
-      if (persona) {                
-        this.existeCorreo.next(true);        
-        return this.ngForm.controls.email.setErrors({  EmailExists: true  });        
+      this.loadingCorreo.next(false);
+      if (persona) {
+        this.existeCorreo.next(true);
+        return this.ngForm.controls.email.setErrors({  EmailExists: true  });
       } else {
-        return this.ngForm.controls.email.setErrors(null);        
+        return this.ngForm.controls.email.setErrors(null);
       }
     } catch(e) {
       this.loadingCorreo.next(false);
@@ -193,30 +201,30 @@ export class RegistroPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   passwordMatchValidator() {
-    return (control: AbstractControl) => {      
+    return (control: AbstractControl) => {
       const password: string = control.get('password').value;
       const confirmPassword: string = control.get('password_confirmation').value;
-      
+
       if (password !== confirmPassword) {
-        
+
         control.get('password_confirmation').setErrors({ NoPassswordMatch: true });
       }
     }
   }
 
   async verificarEmail(control: AbstractControl) {
-    try {      
+    try {
       const email = control.value;
-      console.log(email);
+      // console.log(email);
       this.existeCorreo.next(false);
       this.loadingCorreo.next(true);
 
       const persona = await this.auth.getByEmail(email).toPromise();
       this.loadingCorreo.next(false);
-      console.log(persona);
-      if (persona) {                
-        this.existeCorreo.next(true);        
-        return this.ngForm.controls.email.setErrors({ EmailExists: true });        
+      // console.log(persona);
+      if (persona) {
+        this.existeCorreo.next(true);
+        return this.ngForm.controls.email.setErrors({ EmailExists: true });
       } else {
         this.existeCorreo.next(false);
       }
@@ -224,20 +232,20 @@ export class RegistroPage implements OnInit, AfterViewInit, OnDestroy {
       this.loadingCorreo.next(false);
       this.existeCorreo.next(false);
       console.log(e);
-    }    
+    }
   }
 
   async verificarUsername(control: AbstractControl) {
-    try {      
-      const username = control.value;      
+    try {
+      const username = control.value;
       this.existeUsuario.next(false);
       this.loadingCorreo.next(true);
 
       const persona = await this.auth.getByUsername(username).toPromise();
-      this.loadingCorreo.next(false);      
-      if (persona) {                
-        this.existeUsuario.next(true);        
-        return this.ngForm.controls.username.setErrors({ UserExists: true });        
+      this.loadingCorreo.next(false);
+      if (persona) {
+        this.existeUsuario.next(true);
+        return this.ngForm.controls.username.setErrors({ UserExists: true });
       } else {
         this.existeUsuario.next(false);
       }
@@ -245,7 +253,7 @@ export class RegistroPage implements OnInit, AfterViewInit, OnDestroy {
       this.loadingCorreo.next(false);
       this.existeUsuario.next(false);
       console.log(e);
-    }    
+    }
   }
 
   ngOnDestroy() {

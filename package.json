@@ -37,6 +37,7 @@
     "@techiediaries/ngx-qrcode": "^9.1.0",
     "bootstrap": "^5.0.0-beta3",
     "cordova-android": "10.1.1",
+    "cordova-ios": "6.2.0",
     "ngx-image-cropper": "^6.0.2",
     "ngx-sortablejs": "^11.1.0",
     "ngx-vcard": "^4.1.10",
@@ -92,6 +93,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "mx.ferreyra.callnumber": "^0.0.2",
     "phonegap-nfc": "^1.2.0",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "protractor": "~7.0.0",
@@ -101,7 +103,9 @@
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
-      "phonegap-nfc": {},
+      "phonegap-nfc": {
+        "NFC_USAGE_DESCRIPTION": "Read NFC Tags"
+      },
       "cordova-plugin-camera": {},
       "mx.ferreyra.callnumber": {},
       "cordova-plugin-android-permissions": {},
@@ -124,10 +128,12 @@
       "phonegap-plugin-barcodescanner": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
-      "cordova-plugin-background-mode": {}
+      "cordova-plugin-background-mode": {},
+      "call-number": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

@@ -46,9 +46,24 @@ export class NfcService {
     // }
   }
 
+  leerTagIOS() {
+
+
+
+    //eturn this.nfcCtrl.addTagDiscoveredListener(onNfc, win, fail);
+    // TODO - Retornar nfc
+    return this.nfcCtrl.addTagDiscoveredListener();
+
+    /*return this.nfcCtrl.addNdefListener((data) => {
+      console.log('activaste?')
+      console.log(data);
+    })*/
+    // }
+  }
+
   leerTagIos() {
     // TODO - Retornar nfc en leer tagIOS
-    return this.nfcCtrl.scanNdef()
+    return this.nfcCtrl.scanTag({keepSessionOpen: true});
   }
 
   escribirTag(nfcMsg: any) {

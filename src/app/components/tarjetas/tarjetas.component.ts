@@ -1,3 +1,4 @@
+
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,16 +17,16 @@ import { TarjetaservicioService } from 'src/app/services/tarjetaservicio.service
 import { ServiciosService } from '../../services/servicios.service';
 import { TarjetaPopoverComponent } from '../tarjeta-popover/tarjeta-popover.component';
 import { TarjetaVercomoModalComponent } from '../tarjeta-vercomo-modal/tarjeta-vercomo-modal.component';
-import { TarjetaRenombrarComponent } from "../tarjeta-renombrar/tarjeta-renombrar.component";
-import { AlertService } from "../../services/shared/alert.service";
-import { CompartirModalComponent } from "../compartir-modal/compartir-modal.component";
+import { TarjetaRenombrarComponent } from '../tarjeta-renombrar/tarjeta-renombrar.component';
+import { AlertService } from '../../services/shared/alert.service';
+import { CompartirModalComponent } from '../compartir-modal/compartir-modal.component';
 import { TagsService } from 'src/app/services/tags.service';
-import { TarjetaQrModalComponent } from "../tarjeta-qr-modal/tarjeta-qr-modal.component";
-import { TarjetaContactoModalComponent } from "../tarjeta-contacto/tarjeta-contacto-modal.component";
+import { TarjetaQrModalComponent } from '../tarjeta-qr-modal/tarjeta-qr-modal.component';
+import { TarjetaContactoModalComponent } from '../tarjeta-contacto/tarjeta-contacto-modal.component';
 import { NfcService } from 'src/app/services/nfc.service';
 import { Ndef, NFC } from '@awesome-cordova-plugins/nfc/ngx';
 import { BackgroundMode } from '@awesome-cordova-plugins/background-mode/ngx';
-import {ModalPageService} from "../../services/modal-page.service";
+import {ModalPageService} from '../../services/modal-page.service';
 
 @Component({
   selector: 'app-tarjetas',
@@ -95,9 +96,9 @@ export class TarjetasComponent implements OnInit, OnDestroy {
         })
       );
     if (this.platform.is('android')) {
-      this.plataforma = 'android'
+      this.plataforma = 'android';
     } else if (this.platform.is('ios')) {
-      this.plataforma = 'ios'
+      this.plataforma = 'ios';
     }
   }
 
@@ -299,7 +300,7 @@ export class TarjetasComponent implements OnInit, OnDestroy {
   }
 
   async mostrarServicioEdicion(tarjetaServicio: TarjetaServicio) {
-    this.modalPage.setOnModal(true)
+    this.modalPage.setOnModal(true);
     const modal = await this.modal.create({
       component: ServicioEdicionModalComponent,
       mode: 'ios',
@@ -312,14 +313,14 @@ export class TarjetasComponent implements OnInit, OnDestroy {
     });
 
     await modal.present();
-    await modal.onDidDismiss()
+    await modal.onDidDismiss();
     this.modalPage.setOnModal(false);
 
     this.cdr.detectChanges();
   }
 
   async mostrarCompartirContacto(tarjeta: Tarjeta) {
-    this.modalPage.setOnModal(true)
+    this.modalPage.setOnModal(true);
     const modal = await this.modal.create({
       component: TarjetaContactoModalComponent,
       mode: 'ios',
@@ -330,14 +331,14 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
     await modal.present();
 
-    await modal.onDidDismiss()
-    this.modalPage.setOnModal(false)
+    await modal.onDidDismiss();
+    this.modalPage.setOnModal(false);
 
     this.cdr.detectChanges();
   }
 
   async compartirModal(tarjeta: Tarjeta) {
-    this.modalPage.setOnModal(true)
+    this.modalPage.setOnModal(true);
     const modal = await this.modal.create({
       component: CompartirModalComponent,
       mode: 'ios',
@@ -349,14 +350,14 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
     await modal.present();
 
-    await modal.onDidDismiss()
-    this.modalPage.setOnModal(false)
+    await modal.onDidDismiss();
+    this.modalPage.setOnModal(false);
 
     this.cdr.detectChanges();
   }
 
   async mostrarQr(tarjeta: Tarjeta) {
-    this.modalPage.setOnModal(true)
+    this.modalPage.setOnModal(true);
     const modal = await this.modal.create({
       component: TarjetaQrModalComponent,
       mode: 'ios',
@@ -367,8 +368,8 @@ export class TarjetasComponent implements OnInit, OnDestroy {
     });
 
     await modal.present();
-    await modal.onDidDismiss()
-    this.modalPage.setOnModal(false)
+    await modal.onDidDismiss();
+    this.modalPage.setOnModal(false);
 
     this.cdr.detectChanges();
   }
@@ -447,62 +448,86 @@ export class TarjetasComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.nfcService.nfcFromTagUnsubscripcion()
+    this.nfcService.nfcFromTagUnsubscripcion();
 
-    if (this.plataforma === 'android') {
+    if (this.plataforma === 'ios') {
+      try {
+        const result =  await this.nfcService.leerTagIos();
+        // alert(JSON.stringify(result));
 
-      this.subscriptions.push((this.nfcService.leerTagAndroid())
-        .subscribe(async (data: any) => this.procesarNfc(tarjeta, texto, data)
-          , err => {
-            console.log(JSON.stringify(err))
-            this.toast.create('Ocurrio un error, verifique la disponibilidad del sensor y pruebe de nuevamente', {duration: 3000})
-            this.nfcService.alertDismiss();
-            this.unsubscribeNfc()
-            this.nfcService.nfcFromTag()
-          })
-      )
-      this.nfcService.presentAlert("Apoye el dispositivo junto al tag")
-    } else if (this.plataforma === 'ios') {
-      this.procesarNfc(tarjeta, texto, this.nfcService.leerTagIos())
+        this.procesarNfc(tarjeta, texto, result);
+      } catch (err: any) {
+        console.log(JSON.stringify(err));
+        this.toast.create('Ocurrio un error, verifique la disponibilidad del sensor y pruebe de nuevamente', {duration: 3000});
+        this.nfcService.alertDismiss();
+        this.unsubscribeNfc();
+        this.nfcService.nfcFromTag();
+      }
+
+      return;
+    }
+
+    this.subscriptions.push((this.nfcService.leerTagAndroid())
+      .subscribe(async (data: any) => this.procesarNfc(tarjeta, texto, data)
+        , err => {
+          console.log(JSON.stringify(err));
+          this.toast.create('Ocurrio un error, verifique la disponibilidad del sensor y pruebe de nuevamente', {duration: 3000});
+          this.nfcService.alertDismiss();
+          this.unsubscribeNfc();
+          this.nfcService.nfcFromTag();
+        })
+    );
+
+    if (this.plataforma !== 'ios') {
+      this.nfcService.presentAlert('Apoye el dispositivo junto al tag');
     }
   }
 
   async procesarNfc(tarjeta: Tarjeta, texto: string, data: any) {
 
-    console.log('Creaste el nfc');
+    // alert(JSON.stringify(data));
 
-    this.nfcService.nfcFromTag()
+    this.nfcService.nfcFromTag();
 
     const ndefMsg = new Array(this.ndef.uriRecord(texto));
 
     const resp = await this.nfcCtrl.write(ndefMsg)
-      .then(() => {
-        return true
-      })
-      .catch(e => {
-        return false
-      })
+      .then(() => true)
+      .catch(() => false);
 
     if (!resp) {
-      await this.toast.create('Error de escritura en tag', { duration: 3000 })
-      await this.nfcService.alertDismiss()
-      this.unsubscribeNfc()
+      await this.toast.create('Error de escritura en tag', { duration: 3000 });
+      await this.nfcService.alertDismiss();
+      this.unsubscribeNfc();
       return;
     }
 
-    await this.nfcService.alertDismiss();
+    if (this.platform.is('android')) {
+      await this.nfcService.alertDismiss();
+    }
 
-    this.nfcService.presentAlert("Vinculando el tag.")
 
-    const identificador = this.nfcCtrl.bytesToHexString(data.tag.id || data.id)
+    this.nfcService.presentAlert('Vinculando el tag.');
+
+    let identificador: any;
+
+    if (this.platform.is('ios') || this.platform.is('ipad')) {
+      identificador = this.nfcCtrl.bytesToHexString(data.id);
+    } else {
+      identificador = this.nfcCtrl.bytesToHexString(data.tag.id || data.id);
+    }
+
+    // alert(identificador);
+
     try {
       const infoTag = await this.tagService.getById(identificador);
+      // alert(JSON.stringify(infoTag))
 
       if (!infoTag) {
         await this.nfcService.alertDismiss();
-        await this.toast.create('El tag no esta registrado', { duration: 3000 })
-        this.unsubscribeNfc()
-        return
+        await this.toast.create('El tag no esta registrado', { duration: 3000 });
+        this.unsubscribeNfc();
+        return;
       }
 
       // alert(JSON.stringify(infoTag))
@@ -511,22 +536,22 @@ export class TarjetasComponent implements OnInit, OnDestroy {
 
       if (!infoTag.activo && !infoTag.anulado) {
 
-        tarjeta.nfctag = infoTag
-        await this.actualizarTarjeta(tarjeta)
-        await this.alert.alertMessage("Se ha vinculado con exito!");
+        tarjeta.nfctag = infoTag;
+        await this.actualizarTarjeta(tarjeta);
+        await this.alert.alertMessage('Se ha vinculado con exito!');
         // await this.toast.create('Se ha vinculado con exito!', { duration: 3000 })
 
       } else {
-        await this.toast.create('El tag ya esta vinculado a una tarjeta', { duration: 3000 })
+        await this.toast.create('El tag ya esta vinculado a una tarjeta', { duration: 3000 });
       }
       await this.nfcService.alertDismiss();
-      this.unsubscribeNfc()
+      this.unsubscribeNfc();
     } catch (error) {
       console.log('error', error);
       await this.nfcService.alertDismiss();
-      this.nfcService.nfcFromTag()
-      await this.toast.create('Ocurrio un error, por favor vuelva a intentarlo', { duration: 3000 })
-      this.unsubscribeNfc()
+      this.nfcService.nfcFromTag();
+      await this.toast.create('Ocurrio un error, por favor vuelva a intentarlo', { duration: 3000 });
+      this.unsubscribeNfc();
     }
   }
 

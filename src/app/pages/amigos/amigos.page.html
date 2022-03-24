@@ -23,13 +23,13 @@
       <ion-segment-button value="followers">
         <ion-label>Seguidores</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="pendiente">        
+      <ion-segment-button value="pendiente">
         <ion-label style="display: flex; align-items:center;">
           <span class="ion-padding-end">Pendiente</span>
           <ion-badge *ngIf="(amigos$ | async).followers | pendiente as amigo">
             <span *ngIf="amigo.length">{{amigo.length}}</span>
           </ion-badge>
-        </ion-label>        
+        </ion-label>
       </ion-segment-button>
     </ion-segment>
   </div>
@@ -52,7 +52,7 @@
   </div>
   <div *ngIf="segmentValue === 'pendiente'">
     <div *ngIf="amigos$ | async as amigo">
-      <app-amigos-lista [amigos]="amigo.followers | pendiente" [pendiente]="true" [search]="search" 
+      <app-amigos-lista [amigos]="amigo.followers | pendiente" [pendiente]="true" [search]="search"
                         (eliminarAmigo)="eliminarAmigo($event)"
                         (aceptarAmigo)="aceptarAmigo($event)"
                         (mostrarAmigo)="mostrarAmigo($event)" [loading$]="loading$"></app-amigos-lista>
@@ -165,9 +165,9 @@
     </ion-row>
   </ion-grid>  -->
   <!-- <ion-searchbar placeholder="Buscar contactos" class="search"></ion-searchbar> -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="m-2">
+  <!--<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="m-2">
     <ion-fab-button>
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab>-->
 </ion-content>

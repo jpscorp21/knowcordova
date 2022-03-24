@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   async login(body: PersonaLogin) {
-    console.log('login', body);
+    // console.log('login', body);
     return await this.http.post(`${this.url}persona/bylogin`, body).toPromise();
   }
 
@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   async updatePersona(id: any, body: PersonaUpdate) {
-    console.log('update persona', body);
+    // console.log('update persona', body);
     return await this.http.put(`${this.url}persona/${id}`, body).toPromise();
   }
 }

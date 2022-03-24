@@ -8,6 +8,7 @@ import {TarjetaQrModalComponent} from '../../components/tarjeta-qr-modal/tarjeta
 import {ModalController} from '@ionic/angular';
 import {TarjetaCompartirModalComponent} from '../../components/tarjeta-compartir-modal/tarjeta-compartir-modal.component';
 import {ModalPageService} from '../../services/modal-page.service';
+import {createConsoleLogServer} from "@ionic/angular-toolkit/builders/cordova-serve/log-server";
 
 @Component({
   selector: 'app-tabs',
@@ -55,11 +56,19 @@ export class TabsPage implements OnInit {
 
   onChangeQr() {
     this.tarjetaSelected = this.perfil.perfil.idtarjetaselected;
+    console.log(this.tarjetaSelected)
     if (!this.tarjetaSelected) {
       const tarjeta = Object.values(this.tarjeta.tarjetasByPersona)[0];
       if (tarjeta) {this.mostrarQr(tarjeta);}
     } else {
-      this.mostrarQr(this.tarjeta.tarjetasByPersona[this.tarjetaSelected]);
+      if (this.tarjeta.tarjetasByPersona[this.tarjetaSelected]) {
+        this.mostrarQr(this.tarjeta.tarjetasByPersona[this.tarjetaSelected]);
+      } else {
+
+        const tarjeta = Object.values(this.tarjeta.tarjetasByPersona)[0];
+        if (tarjeta) {this.mostrarQr(tarjeta);}
+      }
+
     }
   }
 
@@ -84,9 +93,9 @@ export class TabsPage implements OnInit {
 
   onChangeCompartir() {
     this.tarjetaSelected = this.perfil.perfil.idtarjetaselected;
-    if (!this.tarjetaSelected) {
+    if (!this.tarjetaSelected || !this.tarjeta.tarjetasByPersona[this.tarjetaSelected]) {
       const tarjeta = Object.values(this.tarjeta.tarjetasByPersona)[0];
-      if (tarjeta) {this.mostrarQr(tarjeta);}
+      if (tarjeta) {this.mostrarCompartir(tarjeta);}
     } else {
       this.mostrarCompartir(this.tarjeta.tarjetasByPersona[this.tarjetaSelected]);
     }

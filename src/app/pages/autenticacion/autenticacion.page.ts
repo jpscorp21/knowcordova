@@ -110,9 +110,6 @@ export class AutenticacionPage implements OnInit, AfterViewInit {
 
       const codigo = '' + this.input1.value + this.input2.value + this.input3.value + this.input4.value + this.input5.value + this.input6.value;
 
-      console.log(codigo);
-      console.log(this.auth.codigo);
-
       if (this.auth.codigo !== Number(codigo)) {
         setTimeout(() => this.input6.value = "", 100);
 

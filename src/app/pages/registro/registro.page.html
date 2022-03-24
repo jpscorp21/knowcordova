@@ -46,6 +46,10 @@
                 <ion-item class="fondo" lines="none" *ngIf="ngForm.controls['username'].touched && (existeUsuario | async)">
                   <ion-label class="text-danger" style="margin-bottom: 0px !important;">El usuario ya existe</ion-label>
                 </ion-item>
+
+                <ion-item class="fondo" lines="none" *ngIf="ngForm.controls['username'].dirty && ngForm.controls['username'].hasError('UserEmpty')">
+                  <ion-label class="text-danger" style="margin-bottom: 0px !important;">El usuario no debe contener espacios vacíos</ion-label>
+                </ion-item>
               </ion-col>
             </ion-row>
             <ion-row>
