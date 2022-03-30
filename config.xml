@@ -112,6 +112,17 @@
         <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
             <string>Know desea utilizar la camara para realizar cambios en la foto del perfil</string>
         </config-file>
+        <config-file target="*-Debug.plist" parent="com.apple.developer.associated-domains">
+          <array>
+            <string>applinks:knownfc.com</string>
+          </array>
+        </config-file>
+
+        <config-file target="*-Release.plist" parent="com.apple.developer.associated-domains">
+          <array>
+            <string>applinks:knownfc.com/</string>
+          </array>
+        </config-file>
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="20" src="resources/ios/icon/icon-20.png" width="20" />

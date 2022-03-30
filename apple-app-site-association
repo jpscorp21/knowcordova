@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "U54P888NFG.com.know.py",
+        "paths": [
+          "NOT \/api\/*",
+          "NOT \/",
+          "*"
+        ]
+      }
+    ]
+  }
+}
